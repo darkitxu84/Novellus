@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusGUI", "NovellusGUI\NovellusGUI.csproj", "{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusLib", "NovellusLib\NovellusLib.csproj", "{EAB23A59-5285-47B2-99A0-18FDDE7A9866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtlusFileSystemLibrary", "External\AtlusFileSystemLibrary\Source\AtlusFileSystemLibrary.csproj", "{52F32200-EF8B-E0BE-44F6-66F7DAA36904}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreappPartnersLib", "External\PreappPartnersLib\Source\PreappPartnersLib.csproj", "{C9C9C62B-E69D-1152-9602-F72D8B6938D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonicAudioLib", "External\SonicAudioLib\Source\SonicAudioLib.csproj", "{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52F32200-EF8B-E0BE-44F6-66F7DAA36904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52F32200-EF8B-E0BE-44F6-66F7DAA36904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52F32200-EF8B-E0BE-44F6-66F7DAA36904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52F32200-EF8B-E0BE-44F6-66F7DAA36904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C9C62B-E69D-1152-9602-F72D8B6938D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C9C62B-E69D-1152-9602-F72D8B6938D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C9C62B-E69D-1152-9602-F72D8B6938D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C9C62B-E69D-1152-9602-F72D8B6938D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B345307-8E1D-4DEE-A1A2-D830A5452B69}
+	EndGlobalSection
+EndGlobal
