@@ -3,26 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusGUI", "NovellusGUI\NovellusGUI.csproj", "{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusLib", "src\NovellusLib\NovellusLib.csproj", "{EAB23A59-5285-47B2-99A0-18FDDE7A9866}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1} = {47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}
+		{C9C9C62B-E69D-1152-9602-F72D8B6938D3} = {C9C9C62B-E69D-1152-9602-F72D8B6938D3}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusLib", "NovellusLib\NovellusLib.csproj", "{EAB23A59-5285-47B2-99A0-18FDDE7A9866}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusGUI", "src\NovellusGUI\NovellusGUI.csproj", "{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtlusFileSystemLibrary", "External\AtlusFileSystemLibrary\Source\AtlusFileSystemLibrary.csproj", "{52F32200-EF8B-E0BE-44F6-66F7DAA36904}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtlusFileSystemLibrary", "external\AtlusFileSystemLibrary\Source\AtlusFileSystemLibrary.csproj", "{52F32200-EF8B-E0BE-44F6-66F7DAA36904}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreappPartnersLib", "External\PreappPartnersLib\Source\PreappPartnersLib.csproj", "{C9C9C62B-E69D-1152-9602-F72D8B6938D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreappPartnersLib", "external\PreappPartnersLib\Source\PreappPartnersLib.csproj", "{C9C9C62B-E69D-1152-9602-F72D8B6938D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonicAudioLib", "External\SonicAudioLib\Source\SonicAudioLib.csproj", "{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonicAudioLib", "external\SonicAudioLib\Source\SonicAudioLib.csproj", "{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}"
 EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32FB2D04-E321-4959-9B32-43B3CC0DB5E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +40,10 @@ Global
 		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

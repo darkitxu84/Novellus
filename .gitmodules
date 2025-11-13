@@ -1,12 +1,12 @@
-[submodule "External/AtlusFileSystemLibrary"]
-	path = External/AtlusFileSystemLibrary
+[submodule "external/AtlusFileSystemLibrary"]
+	path = external/AtlusFileSystemLibrary
 	url = https://github.com/darkitxu84/AtlusFileSystemLibrary
-[submodule "External/PreappPartnersLib"]
-	path = External/PreappPartnersLib
+[submodule "external/PreappPartnersLib"]
+	path = external/PreappPartnersLib
 	url = https://github.com/darkitxu84/PreappPartnersLib
-[submodule "External/SonicAudioLib"]
-	path = External/SonicAudioLib
+[submodule "external/SonicAudioLib"]
+	path = external/SonicAudioLib
 	url = https://github.com/darkitxu84/SonicAudioLib
-[submodule "External/Atlus-Script-Tools"]
-	path = External/Atlus-Script-Tools
+[submodule "external/Atlus-Script-Tools"]
+	path = external/Atlus-Script-Tools
 	url = https://github.com/tge-was-taken/Atlus-Script-Tools
