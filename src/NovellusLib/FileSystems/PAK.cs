@@ -1,11 +1,6 @@
 ﻿using AtlusFileSystemLibrary.Common.IO;
 using AtlusFileSystemLibrary.FileSystems.PAK;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NovellusLib.FileSystems
 {
@@ -45,12 +40,12 @@ namespace NovellusLib.FileSystems
             }
             using (pak)
             {
-                var enumeratedFiles = pak.EnumerateFiles().ToList();
+                List<string> enumeratedFiles = pak.EnumerateFiles().ToList();
                 return enumeratedFiles;
             }
         }
 
-        public static void Unpack(string inputPath, string? outputPath = null)
+        public static bool Unpack(string inputPath, string? outputPath = null)
         {
             outputPath ??= Path.ChangeExtension(inputPath, null);
             Directory.CreateDirectory(outputPath);
@@ -58,7 +53,7 @@ namespace NovellusLib.FileSystems
             if (!TryGetValidPak(inputPath, out var pak))
             {
                 Logger.Error($"Could not unpack file: {inputPath}");
-                return;
+                return false;
             }
             using (pak)
             {
@@ -70,7 +65,32 @@ namespace NovellusLib.FileSystems
                     inputStream.CopyTo(stream);
                 }
             }
+
+            return true;
         }
 
+        public static bool Pack()
+        {
+            return true;
+        }
+
+        public static bool Add(string pakPath, string[] files, bool replace = false)
+        {
+            if (!TryGetValidPak(pakPath, out var pak))
+            {
+                Logger.Error($"Could not add/replace files to: {pakPath}");
+                return false;
+            }
+
+            using (pak)
+            {
+                foreach (string file in files)
+                {
+                    if (pak.Exists( ))
+                }
+            }
+            
+            return true;
+        }
     }
 }
