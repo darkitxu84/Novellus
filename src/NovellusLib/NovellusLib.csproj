@@ -11,11 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\external\AtlusFileSystemLibrary\Source\AtlusFileSystemLibrary.csproj" />
+    <Folder Include="Configuration\GameConfigs\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\GameConfigs\" />
+    <ProjectReference Include="..\..\external\AtlusFileSystemLibrary\Source\AtlusFileSystemLibrary.csproj" />
+    <ProjectReference Include="..\..\external\PreappPartnersLib\Source\PreappPartnersLib.csproj" />
+    <ProjectReference Include="..\..\external\SonicAudioLib\Source\SonicAudioLib.csproj" />
   </ItemGroup>
 
 </Project>

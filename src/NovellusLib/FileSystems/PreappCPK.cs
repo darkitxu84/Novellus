@@ -34,7 +34,5 @@ namespace NovellusLib.FileSystems
 
             return true;
         }
-
-        public static bool 
     }
 }

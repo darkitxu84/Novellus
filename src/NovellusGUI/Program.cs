@@ -1,5 +1,7 @@
 ﻿using Avalonia;
 using System;
+using NovellusLib;
+using NovellusLib.GameManager;
 
 namespace NovellusGUI
 {
