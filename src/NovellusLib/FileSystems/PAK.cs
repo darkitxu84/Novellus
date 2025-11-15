@@ -86,7 +86,7 @@ namespace NovellusLib.FileSystems
             {
                 foreach (string file in files)
                 {
-                    if (pak.Exists( ))
+                    // if (pak.Exists( ))
                 }
             }
             

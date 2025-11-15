@@ -25,7 +25,7 @@ namespace NovellusLib
         SMT3
     }
 
-    public static class GameExtensions
+    public static class GameExt
     {
         public static string ToString(this Games game)
         {
@@ -44,6 +44,27 @@ namespace NovellusLib
                 Games.PQ => "Persona Q",
                 Games.PQ2 => "Persona Q2",
                 Games.SMT3 => "Shin Megami Tensei III: Nocturne",
+                _ => "Unknown"
+            };
+        }
+
+        public static string Folder(this Games game)
+        {
+            return game switch
+            {
+                Games.P1PSP => "p1psp",
+                Games.P3FES => "p3fes",
+                Games.P4 => "p4",
+                Games.P3P => "p3p",
+                Games.P4GVita => "p4gvita",
+                Games.P5 => "p5",
+                Games.P4G32Bits => "p4g32bits",
+                Games.P5R => "p5r",
+                Games.P5RSwitch => "p5rswitch",
+                Games.P5S => "p5s",
+                Games.PQ => "pq",
+                Games.PQ2 => "pq2",
+                Games.SMT3 => "smt3",
                 _ => "Unknown"
             };
         }

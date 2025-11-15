@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace NovellusLib.Package
 {
-    internal class PackageMetadata
+    public class PackageMetadata
     {
+        public string Name { get; set; } = "";
+        public string Id { get; set; } = "";
+        public string Author { get; set; } = "";
+        public string Version { get; set; } = "";
+        public string Link { get; set; } = "";
+        public string Description { get; set; } = "";
+        public List<string> Dependencies { get; set; } = [];
     }
 }
