@@ -1,9 +1,38 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:NovellusGUI.ViewModels"
+        xmlns:m="using:NovellusGUI.Models"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:rxui="http://reactiveui.net"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="NovellusGUI.MainWindow"
-        Title="NovellusGUI">
-    Welcome to Avalonia!
+        x:Class="NovellusGUI.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="NovellusGUI"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <StackPanel>
+        <ComboBox ItemsSource="{Binding AvaibleGames}" 
+          Width="250">
+        
+            <ComboBox.ItemTemplate>
+			    <DataTemplate>
+				    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <Image Source="{Binding Icon}" Width="32" Height="32" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>	
+            </ComboBox.ItemTemplate>
+        
+        </ComboBox>
+    </StackPanel>
+
 </Window>

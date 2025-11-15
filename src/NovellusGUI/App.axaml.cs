@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using NovellusGUI.ViewModels;
+using NovellusGUI.Views;
 
 namespace NovellusGUI
 {
@@ -15,10 +17,14 @@ namespace NovellusGUI
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                desktop.MainWindow = new MainWindow
+                {
+                    DataContext = new MainWindowViewModel(),
+                };
             }
 
             base.OnFrameworkInitializationCompleted();
         }
+
     }
 }

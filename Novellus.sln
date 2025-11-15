@@ -9,7 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusLib", "src\Novellus
 		{C9C9C62B-E69D-1152-9602-F72D8B6938D3} = {C9C9C62B-E69D-1152-9602-F72D8B6938D3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusGUI", "src\NovellusGUI\NovellusGUI.csproj", "{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusGUI", "src\NovellusGUI\NovellusGUI.csproj", "{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EAB23A59-5285-47B2-99A0-18FDDE7A9866} = {EAB23A59-5285-47B2-99A0-18FDDE7A9866}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtlusFileSystemLibrary", "external\AtlusFileSystemLibrary\Source\AtlusFileSystemLibrary.csproj", "{52F32200-EF8B-E0BE-44F6-66F7DAA36904}"
 EndProject
@@ -17,7 +20,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreappPartnersLib", "extern
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonicAudioLib", "external\SonicAudioLib\Source\SonicAudioLib.csproj", "{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}"
 EndProject
-
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,10 +42,10 @@ Global
 		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE62D5BF-919C-4BE9-84D2-AFBEEB1F5208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

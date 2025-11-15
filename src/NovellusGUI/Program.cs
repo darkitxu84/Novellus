@@ -1,12 +1,10 @@
 ﻿using Avalonia;
-using System;
 using ReactiveUI.Avalonia;
-using NovellusLib;
-using NovellusLib.GameManager;
+using System;
 
 namespace NovellusGUI
 {
-    internal class Program
+    internal sealed class Program
     {
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
@@ -20,9 +18,6 @@ namespace NovellusGUI
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .WithInterFont()
-#if (OS_WINDOWS)
-            .With(new Win32PlatformOptions { RenderingMode = new Collection<Win32RenderingMode> { Win32RenderingMode.Wgl } })
-#endif
                 .LogToTrace()
                 .UseReactiveUI();
     }

@@ -1,17 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<OutputType>Exe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsPublishable>True</IsPublishable>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <IsPublishable>True</IsPublishable>
-  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.3.8" />
@@ -30,8 +29,13 @@
     <ProjectReference Include="..\NovellusLib\NovellusLib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ConfigWindows\" />
-    <Folder Include="Utilities\" />
+
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\**"/>
+		<AvaloniaResource Include="Assets\Icons\**"/>
+	</ItemGroup>
+	
+	<ItemGroup>
+    <Folder Include="Utils\" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace NovellusGUI
+namespace NovellusGUI.Views
 {
     public partial class MainWindow : Window
     {

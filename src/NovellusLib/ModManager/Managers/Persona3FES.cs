@@ -23,7 +23,7 @@ namespace NovellusLib.ModManager.Managers
         }
         public Task Unpack()
         {
-            string pathToUnpack = Path.Combine(Folders.Dumps, GameExt.Folder(Games.P3FES));
+            string pathToUnpack = Path.Combine(Folders.Dumps, GameExt.Folder(Game.P3FES));
             const string filesFilter = "*.BIN *.PAK *.PAC *.TBL *.SPR *.BF *.BMD *.PM1 *.bf *.bmd *.pm1 *.FPC -r";
 
             ZipFile.Extract(_config.ISOPath, pathToUnpack, filter: "BTL.CVM DATA.CVM");
