@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NovellusLib.GameManager.Managers
+namespace NovellusLib.ModManager.Managers
 {
     internal class Persona4Golden32Bits
     {

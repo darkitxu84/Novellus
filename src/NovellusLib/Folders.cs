@@ -16,13 +16,13 @@ namespace NovellusLib
         static Folders()
         {
             Root = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            Dumps = $@"{Root}\dumps";
-            Packages = $@"{Root}\packages";
-            Libraries = $@"{Root}\libraries";
-            Dependencies = $@"{Root}\dependencies";
-            Config = $@"{Root}\config";
-            Downloads = $@"{Root}\downloads";
-            FilteredCpkCsv = $@"{Dependencies}\FilteredCpkCsv";
+            Dumps = Path.Combine(Root, "dumps");
+            Packages = Path.Combine(Root, "packages");
+            Libraries = Path.Combine(Root, "libraries");
+            Dependencies = Path.Combine(Root, "dependencies");
+            Config = Path.Combine(Root, "config");
+            Downloads = Path.Combine(Root, "downloads");
+            FilteredCpkCsv = Path.Combine(Dependencies, "FilteredCpkCsv");
         }
     }
 }

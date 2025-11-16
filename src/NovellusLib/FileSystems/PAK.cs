@@ -1,6 +1,7 @@
 ﻿using AtlusFileSystemLibrary.Common.IO;
 using AtlusFileSystemLibrary.FileSystems.PAK;
 using System.Diagnostics.CodeAnalysis;
+using System.Collections.Frozen;
 
 namespace NovellusLib.FileSystems
 {
@@ -13,6 +14,15 @@ namespace NovellusLib.FileSystems
     /// </summary>
     public static class PAK
     {
+        // safe for parallel use
+        public static readonly FrozenSet<string> FileExtensions =
+            new[] { ".pak", ".pac", ".pack", ".bin", ".abin", ".tpc", ".fpc", ".gsd", ".arc" }
+                .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
+
+        public static readonly FrozenSet<string> WantedExtensions =
+            new[] { ".bf", ".bmd", ".pm1", ".acb", ".awb", ".ctd", ".ftd", ".dat", ".spd", ".gtx" }
+                .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
+
         private static bool TryGetValidPak(string path, [NotNullWhen(true)] out PAKFileSystem? pak)
         {
             pak = null;
@@ -40,8 +50,7 @@ namespace NovellusLib.FileSystems
             }
             using (pak)
             {
-                List<string> enumeratedFiles = pak.EnumerateFiles().ToList();
-                return enumeratedFiles;
+                return [.. pak.EnumerateFiles()];
             }
         }
 
@@ -91,6 +100,34 @@ namespace NovellusLib.FileSystems
             }
             
             return true;
+        }
+
+        public static void ExtractWantedFiles(string directory)
+        {
+            if (!Directory.Exists(directory))
+                return;
+
+            var files = Directory.EnumerateFiles(directory, "*.*", SearchOption.AllDirectories)
+                .Where(f => FileExtensions.Contains(Path.GetExtension(f)));
+
+            Parallel.ForEach(files, file =>
+            {
+                List<string>? contents = GetFileContents(file);
+                if (contents == null || contents.Count == 0)
+                    return;
+
+                // Check if there are any files we want (or files that could have files we want) and unpack them if so
+                bool containersFound = contents.Exists(x => FileExtensions.Contains(Path.GetExtension(x)));
+                if (contents.Exists(x => containersFound || WantedExtensions.Contains(Path.GetExtension(x))))
+                {
+                    Logger.Info($"Unpacking {file}");
+                    Unpack(file);
+
+                    // Search the location of the unpacked container for wanted files
+                    if (containersFound)
+                        ExtractWantedFiles(Path.Combine(Path.GetDirectoryName(file)!, Path.GetFileNameWithoutExtension(file)));
+                }
+            });
         }
     }
 }

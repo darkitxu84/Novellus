@@ -1,11 +1,4 @@
-﻿using NovellusLib.GameManager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NovellusLib
+﻿namespace NovellusLib
 {
     public enum Game
     {
@@ -48,6 +41,7 @@ namespace NovellusLib
             };
         }
 
+        // maybe rename this to something like "MiniName" 
         public static string Folder(this Game game)
         {
             return game switch

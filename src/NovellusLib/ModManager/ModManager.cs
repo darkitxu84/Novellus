@@ -7,15 +7,20 @@ using System.Threading.Tasks;
 namespace NovellusLib.ModManager
 {
     // need to think about this more
-    public interface IModManager
+    public abstract class ModManager
     {
-        Task Build();
-        Task Unpack();
+        private string PathToUnpack { get; }
+        public abstract Task Build();
+        public abstract Task Unpack();
     }
     
     public interface ILaunchable
     {
-        bool IsLaunchable => true;
         void Launch();
+    }
+
+    public interface IUseFilteredCsv
+    {
+        string CsvName { get; }
     }
 }
