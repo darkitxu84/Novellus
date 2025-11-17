@@ -17,6 +17,7 @@ namespace NovellusLib.FileSystems
             public string FullPath { get; set; } = fullPath;
             public CpkFile File { get; set; } = file;
         }
+
         // maybe we need some benchmarking later, fileList maybe can be optimized with HashSet
         // cuz we're doing Contains checks for every file
         // TODO: implement some percentage calculator, idk how to do that (maybe using a Action parameter?)

@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+namespace NovellusLib.ModManager.Managers;
 
-namespace NovellusLib.ModManager.Managers
+public class PQ2ModManager() : ModManager(Game.PQ2)
 {
-    internal class PersonaQ2
+    public override Task Build()
     {
+        throw new NotImplementedException();
+    }
+
+    public override Task Unpack()
+    {
+        throw new NotImplementedException();
     }
 }

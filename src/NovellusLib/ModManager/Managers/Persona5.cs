@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace NovellusLib.ModManager.Managers;
 
-namespace NovellusLib.ModManager.Managers
+public class P5ModManager() : ModManager(Game.P5), ILaunchable
 {
-    internal class Persona5
+    public override Task Build()
     {
+        throw new NotImplementedException();
+    }
+    public override Task Unpack()
+    {
+        throw new NotImplementedException();
+    }
+    public void Launch()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -7,6 +7,7 @@ using NovellusGUI.Models;
 using Avalonia;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using System.Linq;
 
 namespace NovellusGUI.ViewModels
 {
@@ -24,7 +25,7 @@ namespace NovellusGUI.ViewModels
         {
             AvaibleGames = [];
 
-            foreach (var game in Enum.GetValues<Game>())
+            foreach (var game in Enum.GetValues<Game>().Skip(1))
             {
                 var uri = new Uri($"avares://NovellusGUI/Assets/Icons/{game.Folder()}.png");
                 if (!AssetLoader.Exists(uri))

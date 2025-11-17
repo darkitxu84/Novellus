@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace NovellusLib.ModManager.Managers;
 
-namespace NovellusLib.ModManager.Managers
+public class P4G32BitsModManager(): ModManager(Game.P4G32Bits), ILaunchable
 {
-    internal class Persona4Golden32Bits
+    public override Task Build()
     {
+        throw new NotImplementedException();
+    }
+    public override Task Unpack()
+    {
+        throw new NotImplementedException();
+    }
+    public void Launch()
+    {
+        throw new NotImplementedException();
     }
 }

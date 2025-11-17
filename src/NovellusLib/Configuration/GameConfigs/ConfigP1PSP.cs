@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NovellusLib.Configuration.GameConfigs;
 
-public class ConfigP3F : Ps2GameConfig
+public class ConfigP1PSP : PSPGameConfig
 {
-
+    public bool CreateISO { get; set; } = false;
 }

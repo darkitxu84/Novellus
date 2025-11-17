@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace NovellusLib.ModManager
 {
     // need to think about this more
-    public abstract class ModManager
+    public abstract class ModManager(Game game)
     {
-        private string PathToUnpack { get; }
+        protected string PathToUnpack { get; } = Path.Combine(Folders.Dumps, game.Folder());
+        protected string PackagesPath { get; } = Path.Combine(Folders.Packages, game.Folder());
         public abstract Task Build();
         public abstract Task Unpack();
     }
@@ -17,10 +18,5 @@ namespace NovellusLib.ModManager
     public interface ILaunchable
     {
         void Launch();
-    }
-
-    public interface IUseFilteredCsv
-    {
-        string CsvName { get; }
     }
 }

@@ -9,9 +9,7 @@
         x:Class="NovellusGUI.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="NovellusGUI"
-        TransparencyLevelHint="AcrylicBlur"
-        Background="Transparent">
+        Title="Novellus Mod Manager">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -21,7 +19,8 @@
 
     <StackPanel>
         <ComboBox ItemsSource="{Binding AvaibleGames}" 
-          Width="250">
+          Width="250"
+          MaxDropDownHeight="200">
         
             <ComboBox.ItemTemplate>
 			    <DataTemplate>

@@ -21,4 +21,12 @@ namespace NovellusLib.Configuration
         public string ElfPath { get; set; } = "";
         public bool UseNewPnachFormat { get; set; } = false;
     }
+
+    public abstract class PSPGameConfig : GameConfig
+    {
+        public string ISOPath { get; set; } = "";
+        public string PPSSPPPath { get; set; } = "";
+        public string TexturesPath { get; set; } = "";
+        public string CheatsPath { get; set; } = "";
+    }
 }
