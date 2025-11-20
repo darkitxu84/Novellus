@@ -48,6 +48,7 @@ public class P5RSwitchModManager(ConfigP5RSwitch config) : ModManager(Game.P5RSw
             Logger.Info($"Extracting ALL_USEU.CPK (This will take awhile)");
             CriCPK.Unpack(allUseuPath, PathToUnpack);
 
+            Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(PathToUnpack);
         });
         Logger.Info($"{Game.P5RSwitch.Name()}; Finished unpacking base files!");
