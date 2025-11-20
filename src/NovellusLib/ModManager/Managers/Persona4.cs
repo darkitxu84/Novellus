@@ -32,9 +32,10 @@ public class P4ModManager(ConfigP4 config) : ModManager(Game.P4), ILaunchable
             File.Delete($@"{PathToUnpack}\BTL.CVM");
             File.Delete($@"{PathToUnpack}\DATA.CVM");
 
+            Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(PathToUnpack);
         });
-        Logger.Info("[INFO] Finished unpacking base files!");
+        Logger.Info($"{Game.P4.Name()}: Finished unpacking base files!");
     }
 
     public void Launch()

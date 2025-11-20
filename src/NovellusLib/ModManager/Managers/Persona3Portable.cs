@@ -19,12 +19,13 @@ public class P3PModManager(ConfigP3P config) : ModManager(Game.P3P), ILaunchable
 
         const string umd0PathFilter = @"PSP_GAME\USRDIR\umd0.cpk";
         string umd0Path = Path.Combine(PathToUnpack, umd0PathFilter);
-        string[]? umd0Files = FilteredCpkCsv.Get(Game.P3P.Folder());
-        if (umd0Files is null || umd0Files.Length == 0)
-            return;
 
         await Task.Run(() =>
         {
+            var umd0Files = FilteredCpkCsv.Get("filtered_umd0");
+            if (umd0Files is null)
+                return;
+
             Logger.Info($"Extracting umd0.cpk from {config.ISOPath}");
             ZipFile.Extract(config.ISOPath, PathToUnpack, filter: umd0PathFilter);
 
@@ -34,9 +35,9 @@ public class P3PModManager(ConfigP3P config) : ModManager(Game.P3P), ILaunchable
             Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(Path.Combine(PathToUnpack, "data"));
 
-            // PathUtils.DeleteIfExists($@"{pathToExtract}\PSP_GAME");
+            PathUtils.TryDeleteDirectory(Path.Combine(PathToUnpack, "PSP_GAME"));
         });
-        Logger.Info("[INFO] Finished unpacking base files!");
+        Logger.Info($"{Game.P3P.Name()}: Finished unpacking base files!");
     }
     public void Launch()
     {

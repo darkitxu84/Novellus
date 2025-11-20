@@ -9,6 +9,7 @@ public class P1PSPModManager(ConfigP1PSP config) : ModManager(Game.P1PSP), ILaun
     {
         throw new NotImplementedException();
     }
+
     public override async Task Unpack()
     {
         if (!File.Exists(config.ISOPath))
@@ -26,8 +27,9 @@ public class P1PSPModManager(ConfigP1PSP config) : ModManager(Game.P1PSP), ILaun
             PSPElf.Decrypt($@"{ebootPath}\EBOOT_ENC.BIN", $@"{ebootPath}\EBOOT.BIN");
             File.Delete($@"{ebootPath}\EBOOT_ENC.BIN");
         });
-        Logger.Info("[INFO] Finished unpacking base files!");
+        Logger.Info($"{Game.P1PSP.Name()}: Finished unpacking base files!");
     }
+
     public void Launch()
     {
         throw new NotImplementedException();

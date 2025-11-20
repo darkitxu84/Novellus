@@ -2,14 +2,15 @@
 
 internal static class FilteredCpkCsv
 {
-    internal static string[]? Get(string csvName)
+    internal static HashSet<string>? Get(string csvName)
     {
-        if (!File.Exists(Path.Combine(Folders.FilteredCpkCsv, csvName)))
+        string csvPath = Path.Combine(Folders.FilteredCpkCsv, $"{csvName}.csv");
+        if (!File.Exists(csvPath))
         {
             Logger.Error($@"Couldn't find CSV file used for unpacking in Dependencies\FilteredCpkCsv: {csvName}");
             return null;
         }
 
-        return File.ReadAllLines(Path.Combine(Folders.FilteredCpkCsv, csvName));
+        return [.. File.ReadAllLines(csvPath)];
     }
 }

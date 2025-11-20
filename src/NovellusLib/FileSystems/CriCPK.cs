@@ -18,12 +18,16 @@ namespace NovellusLib.FileSystems
             public CpkFile File { get; set; } = file;
         }
 
-        // maybe we need some benchmarking later, fileList maybe can be optimized with HashSet
-        // cuz we're doing Contains checks for every file
         // TODO: implement some percentage calculator, idk how to do that (maybe using a Action parameter?)
         // We can use crifsv2lib.gui for example
-        public static void Unpack(string cpkPath, string output, string[]? fileList = null)
+        public static void Unpack(string cpkPath, string output, HashSet<string>? fileList = null)
         {
+            if (!File.Exists(cpkPath))
+            {
+                Logger.Error($"File not found: {cpkPath}");
+                return;
+            }
+
             using var fileStream = new FileStream(cpkPath, FileMode.Open);
             using var reader = CriFsLib.Instance.CreateCpkReader(fileStream, true);
             CpkFile[] files = reader.GetFiles();
@@ -35,8 +39,8 @@ namespace NovellusLib.FileSystems
             {
                 string filePath = string.IsNullOrEmpty(file.Directory) 
                     ? file.FileName 
-                    : $"{file.Directory}/{file.FileName}";
-                if (!extractAll && !fileList!.Contains(filePath)) continue;
+                    : Path.Combine(file.Directory, file.FileName);
+                if (!extractAll && fileList is not null && !fileList.Contains(filePath)) continue;
                 
                 extractor.QueueItem(new FileToExtract(Path.Combine(output, filePath), file));
                 Logger.Info($@"Extracting {filePath}");

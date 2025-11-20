@@ -16,4 +16,8 @@
     <ProjectReference Include="..\..\external\SonicAudioLib\Source\SonicAudioLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mergers\" />
+  </ItemGroup>
+
 </Project>

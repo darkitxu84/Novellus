@@ -32,9 +32,10 @@ public class P3FESModManager(ConfigP3F config) : ModManager(Game.P3FES), ILaunch
             File.Delete($@"{PathToUnpack}\BTL.CVM");
             File.Delete($@"{PathToUnpack}\DATA.CVM");
 
+            Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(PathToUnpack);
         });
-        Logger.Info("[INFO] Finished unpacking base files!");
+        Logger.Info($"{Game.P3FES.Name()}: Finished unpacking base files!");
     }
 
     public void Launch()
