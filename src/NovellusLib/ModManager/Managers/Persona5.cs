@@ -1,5 +1,6 @@
 ﻿using NovellusLib.Configuration.GameConfigs;
 using NovellusLib.FileSystems;
+using NovellusLib.Logging;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -47,6 +48,8 @@ public class P5ModManager(ConfigP5 config) : ModManager(Game.P5), ILaunchable
                 }
             }
 
+            TryCreateUnpackDirectory();
+
             Logger.Info($"Extracting data.cpk");
             CriCPK.Unpack(dataCpk, PathToUnpack, dataFiles);
 
@@ -56,7 +59,7 @@ public class P5ModManager(ConfigP5 config) : ModManager(Game.P5), ILaunchable
             Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(PathToUnpack);
         });
-        Logger.Info($"{Game.P5.Name()}: Finished unpacking base files!");
+        Logger.Info($"({Game.P5.Name()}): Finished unpacking base files!");
     }
     public void Launch()
     {

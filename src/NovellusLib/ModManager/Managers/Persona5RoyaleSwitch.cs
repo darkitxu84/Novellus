@@ -1,5 +1,6 @@
 ﻿using NovellusLib.Configuration.GameConfigs;
 using NovellusLib.FileSystems;
+using NovellusLib.Logging;
 
 namespace NovellusLib.ModManager.Managers;
 
@@ -42,6 +43,8 @@ public class P5RSwitchModManager(ConfigP5RSwitch config) : ModManager(Game.P5RSw
 
         await Task.Run(() =>
         {
+            TryCreateUnpackDirectory();
+
             Logger.Info($"Extracting PATCH1.CPK");
             CriCPK.Unpack(patch1Path, PathToUnpack);
 
@@ -51,7 +54,7 @@ public class P5RSwitchModManager(ConfigP5RSwitch config) : ModManager(Game.P5RSw
             Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(PathToUnpack);
         });
-        Logger.Info($"{Game.P5RSwitch.Name()}; Finished unpacking base files!");
+        Logger.Info($"({Game.P5RSwitch.Name()}); Finished unpacking base files!");
     }
 
     public void Launch()

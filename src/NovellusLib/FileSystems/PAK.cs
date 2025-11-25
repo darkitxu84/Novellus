@@ -2,6 +2,7 @@
 using AtlusFileSystemLibrary.FileSystems.PAK;
 using System.Diagnostics.CodeAnalysis;
 using System.Collections.Frozen;
+using NovellusLib.Logging;
 
 namespace NovellusLib.FileSystems
 {
@@ -44,10 +45,8 @@ namespace NovellusLib.FileSystems
         public static List<string>? GetFileContents(string path)
         {
             if (!TryGetValidPak(path, out var pak))
-            {
-                Logger.Error($"Could not unpack file: {path}");
                 return null;
-            }
+            
             using (pak)
             {
                 return [.. pak.EnumerateFiles()];
@@ -60,10 +59,8 @@ namespace NovellusLib.FileSystems
             Directory.CreateDirectory(outputPath);
 
             if (!TryGetValidPak(inputPath, out var pak))
-            {
-                Logger.Error($"Could not unpack file: {inputPath}");
                 return false;
-            }
+            
             using (pak)
             {
                 foreach (string file in pak.EnumerateFiles())
@@ -87,7 +84,7 @@ namespace NovellusLib.FileSystems
         {
             if (!TryGetValidPak(pakPath, out var pak))
             {
-                Logger.Error($"Could not add/replace files to: {pakPath}");
+                // Logger.Error($"Could not add/replace files to: {pakPath}");
                 return false;
             }
 

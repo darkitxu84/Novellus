@@ -11,6 +11,7 @@ namespace NovellusLib.ModManager
     {
         protected string PathToUnpack { get; } = Path.Combine(Folders.Dumps, game.Folder());
         protected string PackagesPath { get; } = Path.Combine(Folders.Packages, game.Folder());
+        protected void TryCreateUnpackDirectory() => PathUtils.TryCreateDirectory(PathToUnpack);
         public abstract Task Build();
         public abstract Task Unpack();
     }

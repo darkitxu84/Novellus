@@ -1,5 +1,6 @@
 ﻿using NovellusLib.Configuration.GameConfigs;
 using NovellusLib.FileSystems;
+using NovellusLib.Logging;
 using System.IO;
 
 namespace NovellusLib.ModManager.Managers;
@@ -103,6 +104,8 @@ public class P5RModManager(ConfigP5R config) : ModManager(Game.P5R)
             if (dataRFiles is null || ps4RFiles is null)
                 return;
 
+            TryCreateUnpackDirectory();
+
             Logger.Info($"Extracting dataR.cpk");
             CriCPK.Unpack(Path.Combine(config.CpksPath, "dataR.cpk"), PathToUnpack, dataRFiles);
 
@@ -116,7 +119,7 @@ public class P5RModManager(ConfigP5R config) : ModManager(Game.P5R)
             PAK.ExtractWantedFiles(PathToUnpack);
 
         });
-        Logger.Info($"{Game.P5R.Name()}: Finished unpacking base files!");
+        Logger.Info($"({Game.P5R.Name()}): Finished unpacking base files!");
 
     }
 }

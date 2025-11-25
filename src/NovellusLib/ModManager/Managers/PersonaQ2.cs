@@ -1,5 +1,6 @@
 ﻿using NovellusLib.Configuration.GameConfigs;
 using NovellusLib.FileSystems;
+using NovellusLib.Logging;
 
 namespace NovellusLib.ModManager.Managers;
 
@@ -24,13 +25,15 @@ public class PQ2ModManager(ConfigPQ2 config) : ModManager(Game.PQ2), ILaunchable
             if (dataFiles is null)
                 return;
 
+            TryCreateUnpackDirectory();
+
             Logger.Info($"Extracting data.cpk");
             CriCPK.Unpack(config.DataCpkPath, PathToUnpack, dataFiles);
 
             Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(PathToUnpack);
         });
-        Logger.Info($"{Game.PQ2.Name()}; Finished unpacking base files!");
+        Logger.Info($"({Game.PQ2.Name()}); Finished unpacking base files!");
     }
 
     public void Launch()

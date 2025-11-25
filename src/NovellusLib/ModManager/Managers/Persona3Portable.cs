@@ -1,5 +1,6 @@
 ﻿using NovellusLib.Configuration.GameConfigs;
 using NovellusLib.FileSystems;
+using NovellusLib.Logging;
 
 namespace NovellusLib.ModManager.Managers;
 
@@ -26,6 +27,8 @@ public class P3PModManager(ConfigP3P config) : ModManager(Game.P3P), ILaunchable
             if (umd0Files is null)
                 return;
 
+            TryCreateUnpackDirectory();
+
             Logger.Info($"Extracting umd0.cpk from {config.ISOPath}");
             ZipFile.Extract(config.ISOPath, PathToUnpack, filter: umd0PathFilter);
 
@@ -37,7 +40,7 @@ public class P3PModManager(ConfigP3P config) : ModManager(Game.P3P), ILaunchable
 
             PathUtils.TryDeleteDirectory(Path.Combine(PathToUnpack, "PSP_GAME"));
         });
-        Logger.Info($"{Game.P3P.Name()}: Finished unpacking base files!");
+        Logger.Info($"({Game.P3P.Name()}): Finished unpacking base files!");
     }
     public void Launch()
     {

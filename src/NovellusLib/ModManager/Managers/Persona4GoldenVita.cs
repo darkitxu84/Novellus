@@ -1,5 +1,6 @@
 ﻿using NovellusLib.Configuration.GameConfigs;
 using NovellusLib.FileSystems;
+using NovellusLib.Logging;
 
 namespace NovellusLib.ModManager.Managers;
 
@@ -24,12 +25,14 @@ public class P4GVitaModManager(ConfigP4GVita config) : ModManager(Game.P4GVita)
             if (dataFiles is null)
                 return;
 
+            TryCreateUnpackDirectory();
+
             Logger.Info($"Extracting data.cpk");
             CriCPK.Unpack(config.DataCpkPath, PathToUnpack, dataFiles);
 
             Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(PathToUnpack);
         });
-        Logger.Info($"{Game.P4GVita.Name()}: Finished unpacking base files!");
+        Logger.Info($"({Game.P4GVita.Name()}): Finished unpacking base files!");
     }
 }

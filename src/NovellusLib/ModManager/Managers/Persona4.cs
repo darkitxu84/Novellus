@@ -1,5 +1,6 @@
 ﻿using NovellusLib.Configuration.GameConfigs;
 using NovellusLib.FileSystems;
+using NovellusLib.Logging;
 
 namespace NovellusLib.ModManager.Managers;
 
@@ -25,6 +26,8 @@ public class P4ModManager(ConfigP4 config) : ModManager(Game.P4), ILaunchable
 
         await Task.Run(() =>
         {
+            TryCreateUnpackDirectory();
+
             ZipFile.Extract(config.ISOPath, PathToUnpack, filter: "BTL.CVM DATA.CVM");
             ZipFile.Extract(btlCvmPath, Path.Combine(PathToUnpack, "BTL"), filesFilter);
             ZipFile.Extract(dataCvmPath, Path.Combine(PathToUnpack, "DATA"), filesFilter);
@@ -35,7 +38,7 @@ public class P4ModManager(ConfigP4 config) : ModManager(Game.P4), ILaunchable
             Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(PathToUnpack);
         });
-        Logger.Info($"{Game.P4.Name()}: Finished unpacking base files!");
+        Logger.Info($"({Game.P4.Name()}): Finished unpacking base files!");
     }
 
     public void Launch()

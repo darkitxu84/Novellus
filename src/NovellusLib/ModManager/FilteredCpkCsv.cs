@@ -1,4 +1,6 @@
-﻿namespace NovellusLib.ModManager;
+﻿using NovellusLib.Logging;
+
+namespace NovellusLib.ModManager;
 
 internal static class FilteredCpkCsv
 {

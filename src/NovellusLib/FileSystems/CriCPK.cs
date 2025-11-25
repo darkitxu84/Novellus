@@ -3,6 +3,7 @@ using CriFsV2Lib.Definitions.Interfaces;
 using CriFsV2Lib.Definitions.Structs;
 using CriFsV2Lib.Definitions.Utilities;
 using CriFsV2Lib.Encryption.Game;
+using NovellusLib.Logging;
 
 namespace NovellusLib.FileSystems
 {

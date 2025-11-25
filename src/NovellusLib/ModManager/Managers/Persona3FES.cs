@@ -1,5 +1,6 @@
 ﻿using NovellusLib.Configuration.GameConfigs;
 using NovellusLib.FileSystems;
+using NovellusLib.Logging;
 
 namespace NovellusLib.ModManager.Managers;
 
@@ -25,7 +26,12 @@ public class P3FESModManager(ConfigP3F config) : ModManager(Game.P3FES), ILaunch
 
         await Task.Run(() =>
         {
+            TryCreateUnpackDirectory();
+
+            Logger.Info("Extracting CVM files from ISO");
             ZipFile.Extract(config.ISOPath, PathToUnpack, filter: "BTL.CVM DATA.CVM");
+
+            Logger.Info("Extracting BTL.CVM and DATA.CVM");
             ZipFile.Extract(btlCvmPath, Path.Combine(PathToUnpack, "BTL"), filesFilter);
             ZipFile.Extract(dataCvmPath, Path.Combine(PathToUnpack, "DATA"), filesFilter);
 
@@ -35,7 +41,7 @@ public class P3FESModManager(ConfigP3F config) : ModManager(Game.P3FES), ILaunch
             Logger.Info("Unpacking extracted files");
             PAK.ExtractWantedFiles(PathToUnpack);
         });
-        Logger.Info($"{Game.P3FES.Name()}: Finished unpacking base files!");
+        Logger.Info($"({Game.P3FES.Name()}): Finished unpacking base files!");
     }
 
     public void Launch()
