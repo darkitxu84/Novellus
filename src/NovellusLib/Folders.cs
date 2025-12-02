@@ -15,13 +15,19 @@ namespace NovellusLib
 
         static Folders()
         {
-            Root = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            Dumps = Path.Combine(Root, "dumps");
-            Packages = Path.Combine(Root, "packages");
-            Libraries = Path.Combine(Root, "libraries");
-            Dependencies = Path.Combine(Root, "dependencies");
-            Config = Path.Combine(Root, "config");
-            Downloads = Path.Combine(Root, "downloads");
+            var assembly = Assembly.GetEntryAssembly() 
+                ?? throw new Exception("How the fuck the assembly is null?");
+            var assemblyLocation = assembly.Location
+                ?? throw new Exception("HOW THE FUCK THE ASSEMBLY LOCATION IS NULL!?!?");
+
+            Root = Path.GetDirectoryName(assemblyLocation) 
+                ?? throw new Exception("The assembly location is null.");
+            Dumps = Path.Combine(Root, "Dumps");
+            Packages = Path.Combine(Root, "Packages");
+            Libraries = Path.Combine(Root, "Libraries");
+            Dependencies = Path.Combine(Root, "Dependencies");
+            Config = Path.Combine(Root, "Config");
+            Downloads = Path.Combine(Root, "Downloads");
             FilteredCpkCsv = Path.Combine(Dependencies, "FilteredCpkCsv");
         }
     }

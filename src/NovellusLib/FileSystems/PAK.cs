@@ -17,7 +17,7 @@ namespace NovellusLib.FileSystems
     {
         // safe for parallel use
         public static readonly FrozenSet<string> FileExtensions =
-            new[] { ".pak", ".pac", ".pack", ".bin", ".abin", ".tpc", ".fpc", ".gsd", ".arc" }
+            new[] {  ".bin", ".f00", ".f01", ".p00", ".p01", ".fpc", ".pak", ".pac", ".pack", ".se", ".arc", ".abin", ".se", ".pse", ".tpc" }
                 .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
         public static readonly FrozenSet<string> WantedExtensions =
@@ -53,7 +53,7 @@ namespace NovellusLib.FileSystems
             }
         }
 
-        public static bool Unpack(string inputPath, string? outputPath = null)
+        public static bool UnpackFromFile(string inputPath, string? outputPath = null)
         {
             outputPath ??= Path.ChangeExtension(inputPath, null);
             Directory.CreateDirectory(outputPath);
@@ -109,16 +109,39 @@ namespace NovellusLib.FileSystems
 
             Parallel.ForEach(files, file =>
             {
-                List<string>? contents = GetFileContents(file);
-                if (contents == null || contents.Count == 0)
+                if (!PAKFileSystem.TryOpen(file, out var pak))
+                {
+                    Logger.Warn($"Skipping unpacking {file}: not a valid PAK");
                     return;
+                }
+
+                List<string> contents = [.. pak.EnumerateFiles()];
 
                 // Check if there are any files we want (or files that could have files we want) and unpack them if so
                 bool containersFound = contents.Exists(x => FileExtensions.Contains(Path.GetExtension(x)));
-                if (contents.Exists(x => containersFound || WantedExtensions.Contains(Path.GetExtension(x))))
+
+                if (containersFound || contents.Exists(x => WantedExtensions.Contains(Path.GetExtension(x))))
                 {
                     Logger.Info($"Unpacking {file}");
-                    Unpack(file);
+
+                    string outputPath = Path.ChangeExtension(file, null);
+                    PathUtils.TryCreateDirectory(outputPath);
+
+                    using (pak)
+                    {
+                        foreach (var fileInside in contents)
+                        {
+                            var normalizedFilePath = fileInside.Replace("../", "");
+                            var filePath = Path.Combine(outputPath, normalizedFilePath);
+                            // There are duplicated PACs because Atlus. Don't try to create a new file if already exists.
+                            if (File.Exists(filePath))
+                                continue;
+
+                            using var stream = FileUtils.Create(filePath);
+                            using var inputStream = pak.OpenFile(fileInside);
+                            inputStream.CopyTo(stream);
+                        }
+                    }
 
                     // Search the location of the unpacked container for wanted files
                     if (containersFound)

@@ -114,8 +114,12 @@ public static class Logger
     // public methods for different log levels
     public static void Debug(string message,
         [CallerLineNumber] int line = 0,
-        [CallerMemberName] string member = "")
-        => EnqueueLog(LogLevel.Debug, message, line, member);
+        [CallerMemberName] string member = "") =>
+#if DEBUG
+        EnqueueLog(LogLevel.Debug, message, line, member);
+#else
+        return;
+#endif
 
     public static void Info(string message,
         [CallerLineNumber] int line = 0,
@@ -142,7 +146,10 @@ public static class Logger
     {
         _logsChannel.Writer.Complete();
         _flushLogsTask.Wait();
+
         // flush any remaining logs to file
+        if (_sb.Length > 0)
+            Console.Write(_sb.ToString());
         if (_fileLogSb.Length > 0)
             FileFlushLogsBuffer();
         _fileLogWriter.Write(_sb.ToString());
