@@ -1,24 +1,22 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using NovellusLib.Logging;
+using NovellusLib.Packages.Definitions;
 
 namespace NovellusLib.Packages;
 
-public class Package : JsonClass
+public class Package
 {
-    public bool Enabled { get; set; } = false;
     public PackageMetadata Metadata { get; set; } = new PackageMetadata();
     public List<PackageConfig>? Configs { get; set; }
-    [JsonIgnore] 
     public string PkgPath { get; set; } = "";
-
+    public Dictionary<string, string>? Contents { get; set; } 
     // debug stuff
 #if DEBUG
     public override string ToString()
     {
         return
             $"{String.Concat(Enumerable.Repeat("=", 35))} PACKAGE {String.Concat(Enumerable.Repeat("=", 36))}\n" +
-            $"- Enabled: {Enabled}\n" +
             $"- PkgPath: {PkgPath}\n" +
             $"- Configs:\n" +
             $"{String.Join("\n ", Configs!)}\n" +
@@ -42,13 +40,11 @@ public class Package : JsonClass
         {
             Name = "4kmodels",
             Description = "Use Ultra 4K models of Jack Sexo!",
-            Enabled = true,
             Use = "4kmodels"
         };
 
         Package pkg = new()
         {
-            Enabled = true,
             PkgPath = Environment.CurrentDirectory,
             Metadata = pkgMeta,
             Configs = [pkgConfig]

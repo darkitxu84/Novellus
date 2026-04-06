@@ -12,6 +12,7 @@ namespace NovellusLib
         public static readonly string Config;
         public static readonly string Downloads;
         public static readonly string FilteredCpkCsv;
+        public static readonly string ModConfig;
 
         static Folders()
         {
@@ -29,6 +30,7 @@ namespace NovellusLib
             Config = Path.Combine(Root, "Config");
             Downloads = Path.Combine(Root, "Downloads");
             FilteredCpkCsv = Path.Combine(Dependencies, "FilteredCpkCsv");
+            ModConfig = Path.Combine(Root, "ModConfig");
         }
     }
 }

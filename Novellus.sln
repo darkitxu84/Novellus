@@ -20,6 +20,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreappPartnersLib", "extern
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonicAudioLib", "external\SonicAudioLib\Source\SonicAudioLib.csproj", "{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovellusTests", "NovellusTests\NovellusTests.csproj", "{1B531FB0-DB11-4A47-A5CE-37B16ADC1C8D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4510D3F1-FF50-7D0C-AFC5-DEFC5BE203ED} = {4510D3F1-FF50-7D0C-AFC5-DEFC5BE203ED}
+		{EAB23A59-5285-47B2-99A0-18FDDE7A9866} = {EAB23A59-5285-47B2-99A0-18FDDE7A9866}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtlusScriptLibrary", "external\Atlus-Script-Tools\Source\AtlusScriptLibrary\AtlusScriptLibrary.csproj", "{4510D3F1-FF50-7D0C-AFC5-DEFC5BE203ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +38,10 @@ Global
 		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAB23A59-5285-47B2-99A0-18FDDE7A9866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52F32200-EF8B-E0BE-44F6-66F7DAA36904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52F32200-EF8B-E0BE-44F6-66F7DAA36904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52F32200-EF8B-E0BE-44F6-66F7DAA36904}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,10 +54,14 @@ Global
 		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47670599-F9C0-E9C0-9078-4F8E0D2F8DD1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7077D08-DDEF-4F85-84BB-6BA299CB0BC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B531FB0-DB11-4A47-A5CE-37B16ADC1C8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B531FB0-DB11-4A47-A5CE-37B16ADC1C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B531FB0-DB11-4A47-A5CE-37B16ADC1C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B531FB0-DB11-4A47-A5CE-37B16ADC1C8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4510D3F1-FF50-7D0C-AFC5-DEFC5BE203ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4510D3F1-FF50-7D0C-AFC5-DEFC5BE203ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4510D3F1-FF50-7D0C-AFC5-DEFC5BE203ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4510D3F1-FF50-7D0C-AFC5-DEFC5BE203ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

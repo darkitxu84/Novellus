@@ -1,4 +1,5 @@
 ﻿using NovellusLib.Logging;
+using NovellusLib.Packages.Definitions;
 using System.Text.Json;
 using System.Xml.Serialization;
 
@@ -75,7 +76,7 @@ public static class PkgManager
 
         Logger.Debug($"Trying to get package.json from: {pkgPath}");
 
-        string pkgFile = Path.Combine(pkgPath, "package.json");
+        string pkgFile = Path.Combine(pkgPath, "mod.json");
         if (!File.Exists(pkgFile))
         {
             Logger.Error($"Cannot open package.json in {pkgPath}: file does not exist");
@@ -91,7 +92,6 @@ public static class PkgManager
         }
         pkg.PkgPath = pkgPath;
 
-        Validate(pkg);
         return pkg;
     }
 
@@ -101,25 +101,6 @@ public static class PkgManager
         string pkgFile = Path.Combine(pkg.PkgPath, "package.json");
         string json = JsonSerializer.Serialize(pkg, _jsonSerializerOptions);
         File.WriteAllText(pkgFile, json);
-    }
-
-    public static void Validate(Package pkg)
-    {
-        bool isValid = true;
-
-        if (pkg.UnkFields?.Count > 0)
-        {
-            pkg.LogUnkFields($"Unknow keys in package {pkg.PkgPath}");
-            isValid = false;
-        }
-        if (pkg.Metadata.UnkFields?.Count > 0)
-        {
-            pkg.LogUnkFields($"Unknow keys in package metada {pkg.PkgPath}");
-            isValid = false;
-        }
-
-        if (!isValid)
-            Logger.Warn($"WARNING!!!! Some values of package {pkg.PkgPath} may been reseted to default!!!");
     }
 
     public static Dictionary<string, string> GetPkgFiles(Package pkg)

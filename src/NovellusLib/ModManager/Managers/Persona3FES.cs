@@ -28,6 +28,8 @@ public class P3FESModManager(ConfigP3F config) : ModManager(Game.P3FES), ILaunch
         {
             TryCreateUnpackDirectory();
 
+            // TODO: don't extract BTL and DATA and then delete them
+
             Logger.Info("Extracting CVM files from ISO");
             ZipFile.Extract(config.ISOPath, PathToUnpack, filter: "BTL.CVM DATA.CVM");
 
