@@ -1,0 +1,28 @@
+{
+  "Enabled": true,
+  "Metadata": {
+    "Name": "Jack Sexo HD",
+    "Id": "jacksexohdfan.testpackage",
+    "Author": "Jack Sexo HD Fan",
+    "Version": "0.6.9",
+    "Link": "https://jacksexo.hd",
+    "Description": "The best Jack Sexo HD mod ever created!",
+    "Dependencies": [
+      "jacksexohdfanclub.jacksexolib"
+    ]
+  },
+  "Configs": [
+    {
+      "Name": "4kmodels",
+      "Description": "Use Ultra 4K models of Jack Sexo!",
+      "Enabled": true,
+      "Use": "4kmodels"
+    },
+	  {
+	    "Name": "ultrasexo",
+	    "Description": "Use the ultra sexo models!",
+	    "Enabled": false,
+	    "Use": "ultrasexomodels"
+	  }
+  ]
+}
