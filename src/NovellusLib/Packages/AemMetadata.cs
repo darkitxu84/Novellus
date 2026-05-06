@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace NovellusLib.Packages;
 
 // for compatibility reasons with aemulus
-// don't change the class name
+// don't change the class name or properties names
 public class Metadata
 {
     public string? name { get; set; }

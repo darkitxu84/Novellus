@@ -49,7 +49,7 @@ public static class Logger
     {
         // the gui will listen to this event and will receive the logs buffer to print them in a console window
         // consider pass a formatted string and the log level instead of the whole log entries
-        OnFlush?.Invoke(_logsBuffer);
+        OnFlush?.Invoke([.._logsBuffer]);
         _logsBuffer.Clear();
 
         var sbString = _sb.ToString();
@@ -112,14 +112,11 @@ public static class Logger
     }
 
     // public methods for different log levels
+    [Conditional("DEBUG")]
     public static void Debug(string message,
         [CallerLineNumber] int line = 0,
         [CallerMemberName] string member = "") =>
-#if DEBUG
         EnqueueLog(LogLevel.Debug, message, line, member);
-#else
-        return;
-#endif
 
     public static void Info(string message,
         [CallerLineNumber] int line = 0,
@@ -152,8 +149,9 @@ public static class Logger
             Console.Write(_sb.ToString());
         if (_fileLogSb.Length > 0)
             FileFlushLogsBuffer();
-        _fileLogWriter.Write(_sb.ToString());
         _fileLogWriter.WriteLine($"----- Log ended at {CachedNow:G} -----");
+        
+        _flushTimer.Dispose();
         _fileLogWriter.Dispose();
     }
 
