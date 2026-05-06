@@ -1,6 +1,6 @@
 ﻿namespace NovellusLib.Logging.Formatters;
 
-interface ILogFormatter
+internal interface ILogFormatter
 {
     string Format(LogEntry entry);
 }

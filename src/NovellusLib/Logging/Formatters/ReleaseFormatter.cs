@@ -1,6 +1,6 @@
 ﻿namespace NovellusLib.Logging.Formatters;
 
-public class ReleaseFormatter : ILogFormatter
+public sealed class ReleaseFormatter : ILogFormatter
 {
     public string Format(LogEntry entry)
     {
