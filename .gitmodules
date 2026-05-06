@@ -9,8 +9,7 @@
 	url = https://github.com/darkitxu84/SonicAudioLib
 [submodule "external/Atlus-Script-Tools"]
 	path = external/Atlus-Script-Tools
-	url = https://github.com/tge-was-taken/Atlus-Script-Tools
-
+	url = https://github.com/Persona-Modding/Atlus-Script-Tools
 [submodule "external/Libellus-Event-Tools"]
 	path = external/Libellus-Event-Tools
 	url = https://github.com/0HMyC/Libellus-Event-Tools
