@@ -1,6 +1,0 @@
-﻿namespace NovellusLib.Configuration.GameConfigs;
-
-public class ConfigP3F : Ps2GameConfig
-{
-
-}

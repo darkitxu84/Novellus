@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Novellus.Lib.Core\Novellus.Lib.Core.csproj">
+          <ExcludeAssets>runtime</ExcludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+      </ProjectReference>
+      <ProjectReference Include="..\Novellus.Lib.Backend\Novellus.Lib.Backend.csproj">
+          <ExcludeAssets>runtime</ExcludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+      </ProjectReference>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Novellus.Lib.Backend</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CriFsV2Lib" Version="2.1.2" />
+    <PackageReference Include="SharpYaml" Version="3.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\external\Atlus-Script-Tools\Source\AtlusScriptLibrary\AtlusScriptLibrary.csproj" />
+    <ProjectReference Include="..\..\external\AtlusFileSystemLibrary\Source\AtlusFileSystemLibrary.csproj" />
+    <ProjectReference Include="..\..\external\Libellus-Event-Tools\Libellus Library\Libellus Library.csproj" />
+    <ProjectReference Include="..\..\external\PreappPartnersLib\Source\PreappPartnersLib.csproj" />
+    <ProjectReference Include="..\..\external\SonicAudioLib\Source\SonicAudioLib.csproj" />
+    <ProjectReference Include="..\..\src\Novellus.Lib.Core\Novellus.Lib.Core.csproj" />
+  </ItemGroup>
+
+</Project>
