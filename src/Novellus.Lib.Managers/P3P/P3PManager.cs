@@ -13,7 +13,7 @@ internal static class P3PInfo
     internal static readonly GameInfo GameInfo = new GameInfo(ID, NAME);
 }
 
-internal sealed class P3PSupport : IGameSupport
+internal sealed class P3PIntegration : IGameIntegration
 {
     public GameInfo Game => P3PInfo.GameInfo;
     public Type ConfigType => typeof(ConfigP3P);

@@ -15,7 +15,7 @@ internal static class P4GVitaInfo
     internal static readonly GameInfo GameInfo = new GameInfo(ID, NAME);
 }
 
-internal sealed class P4GVitaSupport : IGameSupport
+internal sealed class P4GVitaIntegration : IGameIntegration
 {
     public GameInfo Game => P4GVitaInfo.GameInfo;
     public Type ConfigType => typeof(ConfigP4GVita);

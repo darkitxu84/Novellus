@@ -13,7 +13,7 @@ internal static class P5Info
     internal static readonly GameInfo GameInfo = new GameInfo(ID, NAME);
 }
 
-internal sealed class P5Support : IGameSupport
+internal sealed class P5Integration : IGameIntegration
 {
     public GameInfo Game => P5Info.GameInfo;
     public Type ConfigType => typeof(ConfigP5);

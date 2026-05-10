@@ -6,7 +6,7 @@ public interface IPluginIdentifier
 {
     public string Identifier { get; }
     PluginInfo PluginInfo { get; }
-    IEnumerable<IGameSupport> GetSupportedGames();
+    IEnumerable<IGameIntegration> GetGameIntegrations();
     void OnLoad();
     void OnUnload();
 }

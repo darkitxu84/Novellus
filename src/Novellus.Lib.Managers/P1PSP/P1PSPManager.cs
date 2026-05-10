@@ -13,7 +13,7 @@ internal static class P1PSPInfo
     internal static readonly GameInfo GameInfo = new GameInfo(ID, NAME);
 }
 
-public sealed class P1PSPSupport : IGameSupport
+public sealed class P1PSPIntegration : IGameIntegration
 {
     public GameInfo Game => P1PSPInfo.GameInfo;
     public Type ConfigType => typeof(ConfigP1PSP);

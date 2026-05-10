@@ -13,7 +13,7 @@ internal static class PQ2Info
     internal static readonly GameInfo GameInfo = new GameInfo(ID, NAME);
 }
 
-public sealed class PQ2Support : IGameSupport
+public sealed class PQ2Integration : IGameIntegration
 {
     public GameInfo Game => PQ2Info.GameInfo;
     public Type ConfigType => typeof(ConfigPQ2);

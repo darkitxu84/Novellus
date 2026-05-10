@@ -13,7 +13,7 @@ internal static class P5RSwitchInfo
     internal static readonly GameInfo GameInfo = new GameInfo(ID, NAME);
 }
 
-internal sealed class P5RSwitchSupport : IGameSupport
+internal sealed class P5RSwitchIntegration : IGameIntegration
 {
     public GameInfo Game => P5RSwitchInfo.GameInfo;
     public Type ConfigType => typeof(ConfigP5RSwitch);

@@ -14,7 +14,7 @@ internal static class P4Info
     internal static readonly GameInfo GameInfo = new GameInfo(ID, NAME);
 }
 
-internal sealed class P4Support : IGameSupport
+internal sealed class P4Integration : IGameIntegration
 {
     public GameInfo Game => P4Info.GameInfo;
     public Type ConfigType => typeof(ConfigP4);

@@ -8,18 +8,21 @@ namespace Novellus.Lib.Backend.Plugins;
 
 public static class PluginManager
 {
-    private static Dictionary<string, IGameSupport> GameSupports = new();
+    private static Dictionary<string, IGameIntegration> GameIntegrations = new();
     private static Dictionary<string, PluginInfo> PluginsInfo = new();
 
     public static List<GameInfo> GetSupportedGames()
     {
         List<GameInfo> games = [];
 
-        foreach (var game in GameSupports.Values) 
+        foreach (var game in GameIntegrations.Values) 
             games.Add(game.Game);
 
         return games;
     }
+
+    public static IGameIntegration? GetGameIntegration(string identifier) 
+        => GameIntegrations.GetValueOrDefault(identifier);
     
     public static void LoadPlugins()
     {
@@ -41,8 +44,8 @@ public static class PluginManager
                     if (Activator.CreateInstance(type) is IPluginIdentifier pluginIdentifier)
                     {
                         PluginsInfo.TryAdd(pluginIdentifier.Identifier, pluginIdentifier.PluginInfo);
-                        foreach (var support in pluginIdentifier.GetSupportedGames())
-                            GameSupports.TryAdd(support.Game.Identifier, support);
+                        foreach (var support in pluginIdentifier.GetGameIntegrations())
+                            GameIntegrations.TryAdd(support.Game.Identifier, support);
                         pluginIdentifier.OnLoad();
                     }
                 }

@@ -11,7 +11,7 @@ internal static class P4G32Info
     internal static readonly GameInfo GameInfo = new GameInfo(ID, NAME);
 }
 
-internal sealed class P4G32Support : IGameSupport
+internal sealed class P4G32Integration : IGameIntegration
 {
     public GameInfo Game => P4G32Info.GameInfo;
     public Type ConfigType => typeof(ConfigP4G32);
