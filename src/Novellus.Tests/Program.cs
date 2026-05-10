@@ -31,7 +31,7 @@ public class Program
     public static void Main(string[] args)
     {
         TestLexer();
-        Folders.Initialize("/home/darki/Documentos/novellus_tests/");
+        Folders.Initialize(".");
         Directory.CreateDirectory(Folders.Root);
         Directory.CreateDirectory(Folders.Dumps);
         Directory.CreateDirectory(Folders.Libraries);
