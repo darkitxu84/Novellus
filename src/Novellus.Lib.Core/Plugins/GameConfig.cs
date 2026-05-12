@@ -1,8 +1,12 @@
-﻿namespace Novellus.Lib.Core.Plugins;
+﻿using System.ComponentModel;
+
+namespace Novellus.Lib.Core.Plugins;
 
 public abstract class GameConfig
 {
-    [ConfigMetadata("Output Folder")] [ConfigPath] 
+    [DisplayName("Output Path")]
+    [Description("Path to build output")]
+    [ConfigPath] 
     public string OutputPath { get; set; } = "";
     
     public virtual bool Validate() => Path.Exists(OutputPath);
@@ -10,21 +14,33 @@ public abstract class GameConfig
 
 public abstract class Ps2GameConfig : GameConfig
 {
-    [ConfigMetadata("Game ISO Path")] [ConfigFile("PS2 Iso", "*.iso")] 
+    [DisplayName("Game ISO Path")]
+    [Description("Path to the game ISO")]
+    [ConfigFile("PS2 Iso", "*.iso")] 
     public string ISOPath { get; set; } = "";
     
-    [ConfigMetadata("Game Elf Path")] [ConfigFile("PS2 Executable", "*.elf")]
+    [DisplayName("Game ELF Executable")]
+    [Description("Path to the game ELF executable")]
+    [ConfigFile("PS2 Executable", "*.elf")]
     public string ElfPath { get; set; } = "";
     
-    [ConfigMetadata("PCSX2 Executable Path")] [ConfigFile("PCSX2 Executable")]
+    [DisplayName("PCSX2 Executable Path")]
+    [Description("Path to the PCSX2 executable")]
+    [ConfigFile("PCSX2 Executable")]
     public string PCSX2Path { get; set; } = "";
     
-    [ConfigMetadata("PCSX2 Cheats Path")] [ConfigPath]
+    [DisplayName("PCSX2 Cheats Path")]
+    [Description("Path to the PCSX2 cheats folder")]
+    [ConfigPath]
     public string CheatsPath { get; set; } = "";
     
-    [ConfigMetadata("PCSX2 Textures Path")] [ConfigPath]
+    [DisplayName("PCSX2 Textures Path")]
+    [Description("Path to the PCSX2 textures folder")]
+    [ConfigPath]
     public string TexturesPath { get; set; } = "";
     
+    [DisplayName("Use PNACH 2.0 for cheats")]
+    [Description("Merge the cheats into a single cheat file")]
     public bool UseNewPnachFormat { get; set; } = false;
 
     public override bool Validate()
@@ -35,16 +51,20 @@ public abstract class Ps2GameConfig : GameConfig
 
 public abstract class PSPGameConfig : GameConfig
 {
-    [ConfigMetadata("Game ISO Path")] [ConfigFile("PSP Iso", "*.iso")] 
+    [DisplayName("Game ISO Path")]
+    [ConfigFile("PSP Iso", "*.iso")] 
     public string ISOPath { get; set; } = "";
     
-    [ConfigMetadata("PPSSPP Executable Path")] [ConfigFile("PPSSPP Executable")] 
+    [DisplayName("PPSSP Executable Path")]
+    [ConfigFile("PPSSPP Executable")] 
     public string PPSSPPPath { get; set; } = "";
     
-    [ConfigMetadata("PPSSPP Textures Path")] [ConfigPath]
+    [DisplayName("PPSSP Textures Path")]
+    [ConfigPath]
     public string TexturesPath { get; set; } = "";
     
-    [ConfigMetadata("PPSSPP Cheats Path")] [ConfigPath]
+    [DisplayName("PPSSP Cheats Path")]
+    [ConfigPath]
     public string CheatsPath { get; set; } = "";
     
     public override bool Validate()
@@ -55,9 +75,23 @@ public abstract class PSPGameConfig : GameConfig
 
 public abstract class N3DSGameConfig : GameConfig
 {
+    [DisplayName("Game ROM Path")]
+    [Description("Path to the game ROM")]
+    [ConfigFile("N3DS ROM", "*.3ds;*.app;*.cxi;*.cci")]
     public string RomPath { get; set; } = "";
+    
+    [DisplayName("3DS Emulator Executable Path")]
+    [Description("Path to the 3DS Emulator executable")]
+    [ConfigFile("3DS Emulator Executable")]
     public string EmuPath { get; set; } = "";
+    
+    [DisplayName("Textures Path")]
+    [Description("Path to the 3DS Emulator textures folder")]
+    [ConfigPath]
     public string TexturesPath { get; set; } = "";
+    
+    [DisplayName("DataCpk")]
+    [ConfigFile("CPK", "*.cpk")]
     public string DataCpkPath { get; set; } = "";
     
     public override bool Validate()

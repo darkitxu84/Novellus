@@ -1,15 +1,18 @@
-﻿using Novellus.Lib.Core.Plugins;
+﻿using System.ComponentModel;
+using Novellus.Lib.Core.Plugins;
 
 namespace Novellus.Lib.Managers.P5;
 
 public sealed class ConfigP5 : GameConfig
 {
-    [ConfigMetadata("Persona 5 EBOOT.BIN Path")] [ConfigFile("PS3 Executable", "EBOOT.BIN")]
+    [DisplayName("Persona 5 EBOOT.BIN Path")]
+    [ConfigFile("PS3 Executable", "EBOOT.BIN")]
     public string EbootPath { get; set; } = "";
     
-    [ConfigMetadata("RPCS3 Executable Path")]  [ConfigFile("RPCS3 Executable")]
+    [DisplayName("RPCS3 Executable Path")]
+    [ConfigFile("RPCS3 Executable")]
     public string RPCS3Path { get; set; } = "";
     
-    [ConfigMetadata("CPK Name")]
+    [DisplayName("CPK Name")]
     public string CpkName { get; set; } = "mod";
 }

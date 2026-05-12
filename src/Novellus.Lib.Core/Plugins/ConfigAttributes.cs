@@ -5,18 +5,6 @@ namespace Novellus.Lib.Core.Plugins;
 // https://api-docs.avaloniaui.net/docs/T_Avalonia_Platform_Storage_FolderPickerOpenOptions
 
 /// <summary>
-/// Metadata used to make the configuration window
-/// </summary>
-/// <param name="name">The name of the configuration</param>
-/// <param name="desc">Optional description of the configuration></param>
-[AttributeUsage(AttributeTargets.Property)]
-public class ConfigMetadataAttribute(string name, string desc = "") : Attribute
-{
-    public string DisplayName { get; } = name;
-    public string Description { get; } = desc;
-}
-
-/// <summary>
 /// Represents a folder
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]

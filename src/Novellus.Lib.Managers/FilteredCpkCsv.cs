@@ -13,7 +13,7 @@ internal static class FilteredCpkCsv
             Logger.Error($@"Couldn't find CSV file used for unpacking in Dependencies\FilteredCpkCsv: {csvName}");
             return null;
         }
-
+        
         return [.. File.ReadAllLines(csvPath)];
     }
 }

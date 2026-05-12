@@ -3,16 +3,16 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GenerateDependencyFile>false</GenerateDependencyFile> <!-- Do not include deps.json -->
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Novellus.Lib.Core\Novellus.Lib.Core.csproj">
-
+          <Private>false</Private> <!-- Do not include Core when building -->
       </ProjectReference>
-        
       <ProjectReference Include="..\Novellus.Lib.Backend\Novellus.Lib.Backend.csproj">
-
+          <Private>false</Private> <!-- Do not include Backend when build -->
+          <ExcludeAssets>runtime</ExcludeAssets> <!-- Should not include Backend dependencies when building but https://github.com/dotnet/sdk/issues/42708 -->
       </ProjectReference>
     </ItemGroup>
-
 </Project>

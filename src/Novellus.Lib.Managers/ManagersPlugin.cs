@@ -3,10 +3,8 @@ using Novellus.Lib.Core.Plugins;
 
 namespace Novellus.Lib.Managers;
 
-public class ManagersIdentifier : IPluginIdentifier
+public class ManagersPlugin : IPluginBase
 {
-    public string Identifier => "novellus.managers";
-    public PluginInfo PluginInfo => new PluginInfo("Default Managers", "Tekka & oceanstuck");
     public IEnumerable<IGameIntegration> GetGameIntegrations()
     {
         yield return new P1PSP.P1PSPIntegration();
@@ -21,7 +19,5 @@ public class ManagersIdentifier : IPluginIdentifier
         yield return new PQ.PQIntegration();
         yield return new PQ2.PQ2Integration();
     }
-
     public void OnLoad() => Logger.Info("Loading default managers");
-    public void OnUnload() => Logger.Info("Unloading default managers");
 }

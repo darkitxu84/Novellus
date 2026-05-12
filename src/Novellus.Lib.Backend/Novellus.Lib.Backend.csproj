@@ -4,6 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateDependencyFile>false</GenerateDependencyFile> <!-- Do not include deps.json -->
     <RootNamespace>Novellus.Lib.Backend</RootNamespace>
   </PropertyGroup>
 
@@ -18,7 +19,9 @@
     <ProjectReference Include="..\..\external\Libellus-Event-Tools\Libellus Library\Libellus Library.csproj" />
     <ProjectReference Include="..\..\external\PreappPartnersLib\Source\PreappPartnersLib.csproj" />
     <ProjectReference Include="..\..\external\SonicAudioLib\Source\SonicAudioLib.csproj" />
-    <ProjectReference Include="..\..\src\Novellus.Lib.Core\Novellus.Lib.Core.csproj" />
+    <ProjectReference Include="..\..\src\Novellus.Lib.Core\Novellus.Lib.Core.csproj">
+      <Private>false</Private> <!-- Do not build core when building core -->
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

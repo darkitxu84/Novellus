@@ -14,7 +14,7 @@ internal static class P3FInfo
 
 internal sealed class P3FIntegration : IGameIntegration
 {
-    public GameInfo Game => P3FInfo.GameInfo;
+    public GameInfo Game => P3FInfo.GameInfo;   
     public Type ConfigType => typeof(ConfigP3F);
     public Type ManagerType => typeof(P3FManager);
 }

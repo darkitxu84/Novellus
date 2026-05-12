@@ -8,51 +8,54 @@ namespace Novellus.Lib.Backend.Plugins;
 
 public static class PluginManager
 {
-    private static Dictionary<string, IGameIntegration> GameIntegrations = new();
-    private static Dictionary<string, PluginInfo> PluginsInfo = new();
+    private static readonly Dictionary<string, IGameIntegration> GameIntegrations = new(); // <game.id, GameIntregation>
+    private static readonly Dictionary<string, IPluginInfo> PluginsInfo = new(); // <plugin.id, PluginInfo>
 
     public static List<GameInfo> GetSupportedGames()
     {
         List<GameInfo> games = [];
-
-        foreach (var game in GameIntegrations.Values) 
-            games.Add(game.Game);
-
+        games.AddRange(GameIntegrations.Values.Select(game => game.Game));
         return games;
     }
 
-    public static IGameIntegration? GetGameIntegration(string identifier) 
-        => GameIntegrations.GetValueOrDefault(identifier);
+    public static IGameIntegration? GetGameIntegration(string gameId) 
+        => GameIntegrations.GetValueOrDefault(gameId);
+    
+    public static IPluginInfo? GetPluginInfo(string pluginId)
+        =>  PluginsInfo.GetValueOrDefault(pluginId);
+    
+    public static List<IPluginInfo> GetLoadedPluginsInfo()
+        => PluginsInfo.Values.ToList();
     
     public static void LoadPlugins()
     {
         if (!Directory.Exists(Folders.Plugins)) return;
-        var dlls = Directory.GetFiles(Folders.Plugins, "*.dll");
+        var dirs = Directory.GetDirectories(Folders.Plugins);
 
-        foreach (var dll in dlls)
+        foreach (var dir in dirs)
         {
-            try
+            var ymlPath = Path.Combine(dir, "plugin.yml");
+            var pluginInfo = PluginInfo.LoadFromFile(ymlPath);
+            if (pluginInfo is null)
             {
-                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(dll);
-
-                var pluginIdentifiers = assembly.GetTypes().Where(t =>
-                    t.GetInterfaces().Contains(typeof(IPluginIdentifier)));
-
-                foreach (var type in pluginIdentifiers)
-                {
-                    // TODO: validations
-                    if (Activator.CreateInstance(type) is IPluginIdentifier pluginIdentifier)
-                    {
-                        PluginsInfo.TryAdd(pluginIdentifier.Identifier, pluginIdentifier.PluginInfo);
-                        foreach (var support in pluginIdentifier.GetGameIntegrations())
-                            GameIntegrations.TryAdd(support.Game.Identifier, support);
-                        pluginIdentifier.OnLoad();
-                    }
-                }
+                Logger.Error($"Could not load plugin information '{ymlPath}'");
+                continue;
             }
-            catch (Exception ex)
+            var assemblyPath = Path.Combine(dir, pluginInfo.Dll);
+            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
+            var pluginIdentifiers = assembly.GetTypes().Where(t =>
+                t.GetInterfaces().Contains(typeof(IPluginBase)));
+
+            foreach (var type in pluginIdentifiers)
             {
-                Logger.Fatal(ex.Message); 
+                // TODO: validations
+                if (Activator.CreateInstance(type) is IPluginBase plugin)
+                {
+                    PluginsInfo.TryAdd(pluginInfo.Id, pluginInfo);
+                    foreach (var gameIntegration in plugin.GetGameIntegrations())
+                        GameIntegrations.TryAdd(gameIntegration.Game.Identifier, gameIntegration);
+                    plugin.OnLoad();
+                }
             }
         }
     }
