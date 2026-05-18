@@ -16,4 +16,9 @@ public static class PathUtils
         try { Directory.CreateDirectory(path); }
         catch (Exception ex) { Logger.Error($"Unable to create directory {path}: {ex.Message}"); }
     }
+
+    public static string NormalizePath(string path)
+    {
+        return path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
+    }
 }

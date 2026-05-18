@@ -19,7 +19,6 @@
     <ProjectReference Include="..\..\external\AtlusFileSystemLibrary\Source\AtlusFileSystemLibrary.csproj" />
     <ProjectReference Include="..\..\external\Libellus-Event-Tools\Libellus Library\Libellus Library.csproj" />
     <ProjectReference Include="..\..\external\PreappPartnersLib\Source\PreappPartnersLib.csproj" />
-    <ProjectReference Include="..\..\external\SonicAudioLib\Source\SonicAudioLib.csproj" />
     <ProjectReference Include="..\..\src\Novellus.Lib.Core\Novellus.Lib.Core.csproj">
       <Private>false</Private> <!-- Do not build core when building core -->
     </ProjectReference>

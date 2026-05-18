@@ -13,7 +13,7 @@ public class PackageMetadata : IPackageMetadata
     private const int AUTHOR_MAX_L = 30;
     private const int VERSION_MAX_L = int.MaxValue;
     private const int LINK_MAX_L = int.MaxValue;
-    private const int DESCRIPTION_MAX_L = 40;
+    private const int DESCRIPTION_MAX_L = 200;
 
     [YamlRequired] public string Name { get; init; } = string.Empty;
     [YamlRequired] public string Id { get; init; } = string.Empty;

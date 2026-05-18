@@ -44,9 +44,9 @@ public class Program
         Directory.CreateDirectory(Folders.Plugins);
         Directory.CreateDirectory(Folders.Packages);
 
-        var packages = PackageManager.LoadPackagesFromGame("test");
+        var packages = PackageManager.LoadPackagesFromGame("pq2");
         PackageManager.ProcessPackagesConfiguration(packages);
-        AwbMerger.Merge(packages, "test", "C:\\Users\\darki-win\\Desktop\\OUTPUT\\NOV");
+        AwbMerger.Merge(packages, "pq2", "C:\\Users\\darki-win\\Desktop\\OUTPUT\\NOV");
         Logger.Shutdown();
     }
 }
