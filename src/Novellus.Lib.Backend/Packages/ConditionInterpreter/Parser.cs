@@ -145,7 +145,6 @@ public static class Parser
                     return inner;
                 }
             default:
-                Logger.Error($"unexpected token at position {Current().Position}");
                 return null;
         }
     }
