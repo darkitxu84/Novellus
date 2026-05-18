@@ -86,10 +86,12 @@ public static class Interpreter
                 _ => false
             };
 
-        // if we have two numbers
+        // if we have two numbers or two bools, compare them as doubles (bools will be converted to 0 and 1)
         if (TryToDouble(left, out double l) && TryToDouble(right, out double r))
             return ApplyOperator(node.Operator, l.CompareTo(r));
 
+        if (left.GetType() != typeof(string) || right.GetType() != typeof(string)) 
+            throw new InterpreterException($"Cannot compare values of type {left.GetType().Name} and {right.GetType().Name}!");
         // if we have two strings
         string ls = left.ToString()!, rs = right.ToString()!;
 
