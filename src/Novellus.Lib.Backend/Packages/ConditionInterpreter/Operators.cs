@@ -1,4 +1,4 @@
-namespace Novellus.Lib.Backend.Packages.PackageConfig.ConditionInterpreter;
+namespace Novellus.Lib.Backend.Packages.ConditionInterpreter;
 
 public enum LogicalOperator
 {

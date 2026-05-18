@@ -39,11 +39,11 @@ namespace Novellus.Lib.Backend.FileSystems
             using var extractor = CriFsLib.Instance.CreateBatchExtractor<FileToExtract>(cpkPath, P5RCrypto.DecryptionFunction);
             foreach (var file in files)
             {
-                string filePath = string.IsNullOrEmpty(file.Directory) 
-                    ? file.FileName 
+                string filePath = string.IsNullOrEmpty(file.Directory)
+                    ? file.FileName
                     : Path.Combine(file.Directory, file.FileName);
                 if (!extractAll && fileList is not null && !fileList.Contains(filePath)) continue;
-                
+
                 extractor.QueueItem(new FileToExtract(Path.Combine(output, filePath), file));
                 Logger.Info($@"Extracting {filePath}");
             }

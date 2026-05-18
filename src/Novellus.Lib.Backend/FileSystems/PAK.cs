@@ -1,8 +1,8 @@
-﻿using System.Collections.Frozen;
-using System.Diagnostics.CodeAnalysis;
-using AtlusFileSystemLibrary.Common.IO;
+﻿using AtlusFileSystemLibrary.Common.IO;
 using AtlusFileSystemLibrary.FileSystems.PAK;
 using Novellus.Lib.Backend.Logging;
+using System.Collections.Frozen;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Novellus.Lib.Backend.FileSystems
 {
@@ -17,14 +17,14 @@ namespace Novellus.Lib.Backend.FileSystems
     {
         // safe for parallel use
         private static readonly FrozenSet<string> FileExtensions =
-            new[] {  ".bin", ".f00", ".f01", ".p00", ".p01", ".fpc", ".pak", ".pac", ".pack", ".se", ".arc", ".abin", ".se", ".pse", ".tpc" }
+            new[] { ".bin", ".f00", ".f01", ".p00", ".p01", ".fpc", ".pak", ".pac", ".pack", ".se", ".arc", ".abin", ".se", ".pse", ".tpc" }
                 .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
         // wanted extensions when we're extracting the game files
         private static readonly FrozenSet<string> WantedExtensions =
             new[] { ".bf", ".bmd", ".pm1", ".acb", ".awb", ".ctd", ".ftd", ".dat", ".spd", ".gtx" }
                 .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
-        
+
         private static bool TryGetValidPak(string path, [NotNullWhen(true)] out PAKFileSystem? pak)
         {
             pak = null;
@@ -43,13 +43,13 @@ namespace Novellus.Lib.Backend.FileSystems
             return true;
         }
 
-        public static bool IsValidPak; 
+        public static bool IsValidPak;
 
         public static List<string>? GetFileContents(string path)
         {
             if (!TryGetValidPak(path, out var pak))
                 return null;
-            
+
             using (pak)
             {
                 return [.. pak.EnumerateFiles()];
@@ -63,7 +63,7 @@ namespace Novellus.Lib.Backend.FileSystems
 
             if (!TryGetValidPak(inputPath, out var pak))
                 return false;
-            
+
             using (pak)
             {
                 foreach (string file in pak.EnumerateFiles())
@@ -98,7 +98,7 @@ namespace Novellus.Lib.Backend.FileSystems
                     // if (pak.Exists( ))
                 }
             }
-            
+
             return true;
         }
 

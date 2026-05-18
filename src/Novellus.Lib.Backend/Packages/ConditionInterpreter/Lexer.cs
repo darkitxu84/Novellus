@@ -1,25 +1,29 @@
-using System.Text;
 using Novellus.Lib.Backend.Logging;
+using System.Text;
 
-namespace Novellus.Lib.Backend.Packages.PackageConfig.ConditionInterpreter;
+namespace Novellus.Lib.Backend.Packages.ConditionInterpreter;
 
-public sealed class Lexer(string source)
+public static class Lexer
 {
-    private string Source { get; init; } = source.Trim();
-    private int Pos { get; set; } = 0;
-    private StringBuilder Sb { get; } = new();
-    
-    public List<Token>? Tokenize()
+    private static int Pos { get; set; } = 0;
+    private static StringBuilder Sb { get; } = new();
+    private static string Source = string.Empty;
+
+    public static List<Token>? Tokenize(string source)
     {
         List<Token> tokens = [];
+
+        Source = source.Trim();
+        Pos = 0;
+        Sb.Clear();
 
         while (Pos < Source.Length)
         {
             SkipWhiteSpace();
             if (Pos >= Source.Length) break;
-            
+
             char c = Current();
-            
+
             if (c == '(')
             {
                 tokens.Add(new Token(TokenType.LeftParen, "(", Pos));
@@ -27,56 +31,56 @@ public sealed class Lexer(string source)
             }
             else if (c == ')')
             {
-                tokens.Add(new Token(TokenType.RightParen, ")", Pos)); 
+                tokens.Add(new Token(TokenType.RightParen, ")", Pos));
                 Pos++;
             }
             else if (c == ',')
             {
-                tokens.Add(new Token(TokenType.Comma, ",", Pos)); 
+                tokens.Add(new Token(TokenType.Comma, ",", Pos));
                 Pos++;
             }
-            
+
             else if (c == '=')
             {
                 if (!Peek().Equals('='))
                 {
-                    Logger.Error($"expected equals at position {Pos + 1}");
+                    Logger.Error($"expected equals at position {Pos + 1} in condition '{Source}'");
                     return null;
                 }
-                tokens.Add(new Token(TokenType.Equal, "==", Pos)); 
+                tokens.Add(new Token(TokenType.Equal, "==", Pos));
                 Pos += 2;
             }
             else if (c == '!')
             {
                 if (!Peek().Equals('='))
                 {
-                    Logger.Error($"expected equals at position {Pos + 1}");
+                    Logger.Error($"expected equals at position {Pos + 1} in condition '{Source}'");
                     return null;
                 }
-                tokens.Add(new Token(TokenType.NotEqual, "!=", Pos)); 
+                tokens.Add(new Token(TokenType.NotEqual, "!=", Pos));
                 Pos += 2;
             }
             else if (c == '>' && Peek() == '=')
             {
-                tokens.Add(new Token(TokenType.GreaterThanOrEqual, ">=", Pos)); 
+                tokens.Add(new Token(TokenType.GreaterThanOrEqual, ">=", Pos));
                 Pos += 2;
             }
             else if (c == '<' && Peek() == '=')
             {
-                tokens.Add(new Token(TokenType.LessThanOrEqual, "<=", Pos)); 
+                tokens.Add(new Token(TokenType.LessThanOrEqual, "<=", Pos));
                 Pos += 2;
             }
             else if (c == '>')
             {
-                tokens.Add(new Token(TokenType.GreaterThan, ">", Pos)); 
+                tokens.Add(new Token(TokenType.GreaterThan, ">", Pos));
                 Pos++;
             }
             else if (c == '<')
             {
-                tokens.Add(new Token(TokenType.LessThan, "<", Pos)); 
+                tokens.Add(new Token(TokenType.LessThan, "<", Pos));
                 Pos++;
             }
-            
+
             else if (c == '"')
             {
                 Token? strLiteral = ReadStringLiteral();
@@ -94,7 +98,7 @@ public sealed class Lexer(string source)
 
             else
             {
-                Logger.Error($"unexpected character {c} at position {Pos}" );
+                Logger.Error($"unexpected character {c} at position {Pos} in condition '{Source}'");
                 return null;
             }
         }
@@ -102,31 +106,31 @@ public sealed class Lexer(string source)
         tokens.Add(new Token(TokenType.Eof, null, Pos));
         return tokens;
     }
-    
-    private char Current() =>  Source[Pos];
-    private char Peek() => (Pos + 1 < Source.Length) ? Source[Pos + 1] : '\0';
-    private void SkipWhiteSpace()
+
+    private static char Current() => Source[Pos];
+    private static char Peek() => (Pos + 1 < Source.Length) ? Source[Pos + 1] : '\0';
+    private static void SkipWhiteSpace()
     {
         while (Pos < Source.Length && char.IsWhiteSpace(Current()))
             Pos++;
     }
-    private string GetLiteral()
+    private static string GetLiteral()
     {
         string literal = Sb.ToString();
         Sb.Clear();
         return literal;
     }
-    private bool IsIdentStartChar(char c) => char.IsLetter(c) || c == '_';
-    private bool IsIdentChar(char c) => IsIdentStartChar(c) || char.IsDigit(c) || c == '.';
-    
-    private Token? ReadStringLiteral()
+    private static bool IsIdentStartChar(char c) => char.IsLetter(c) || c == '_';
+    private static bool IsIdentChar(char c) => IsIdentStartChar(c) || char.IsDigit(c) || c == '.';
+
+    private static Token? ReadStringLiteral()
     {
         int start = Pos;
         Pos++;
 
         while (Pos < Source.Length && Current() != '"')
         {
-            
+
             if (Current() == '\\' && Peek() == '"')
             {
                 Sb.Append('"');
@@ -140,7 +144,7 @@ public sealed class Lexer(string source)
         if (Pos >= Source.Length && !Source.EndsWith('"'))
         {
             // TODO: some proper error handling :d
-            Logger.Error("you dumbass left a unterminated string literal");
+            Logger.Error($"you dumbass left a unterminated string literal in condition '{Source}'");
             return null;
         }
 
@@ -148,46 +152,46 @@ public sealed class Lexer(string source)
         return new Token(TokenType.StringLiteral, GetLiteral(), start);
     }
 
-    private Token? ReadNumberLiteral()
+    private static Token? ReadNumberLiteral()
     {
         int start = Pos;
-        
+
         while (Pos < Source.Length && char.IsDigit(Current()))
         {
             Sb.Append(Current());
             Pos++;
         }
-        
+
         // early return if we have a int
-        if (Pos >= Source.Length || Current() == ')' ||  Current() == ' ')
+        if (Pos >= Source.Length || Current() == ')' || Current() == ' ')
             return new Token(TokenType.NumberLiteral, GetLiteral(), start);
-        
+
         if (Current() != '.')
         {
-            Logger.Error($"expected a dot (.), a close parenthesis or a empty space at position {Pos}");
+            Logger.Error($"expected a dot (.), a close parenthesis or a empty space at position {Pos} in condition '{Source}'");
             return null;
         }
-        
+
         // if we have a dot, but if we peek not a number, throw a error
         if (!char.IsDigit(Peek()))
         {
-            Logger.Error($"expected a number at position {Pos + 1}");
+            Logger.Error($"expected a number at position {Pos + 1} in condition '{Source}'");
             return null;
         }
 
         Sb.Append(Current());
         Pos++;
-        
+
         while (Pos < Source.Length && char.IsDigit(Current()))
         {
             Sb.Append(Current());
             Pos++;
         }
         return new Token(TokenType.FloatLiteral, GetLiteral(), start);
-    
+
     }
 
-    private Token ReadWord()
+    private static Token ReadWord()
     {
         int start = Pos;
 
@@ -203,11 +207,11 @@ public sealed class Lexer(string source)
             "AND" => TokenType.And,
             "OR" => TokenType.Or,
             "NOT" => TokenType.Not,
-            "MOD_ENABLED" =>  TokenType.ModEnabled,
-            "MOD_VERSION"  => TokenType.ModVersion,
+            "MOD_ENABLED" => TokenType.ModEnabled,
+            "MOD_VERSION" => TokenType.ModVersion,
             _ => TokenType.Identifier
         };
-        
+
         return new Token(type, word, start);
     }
 }

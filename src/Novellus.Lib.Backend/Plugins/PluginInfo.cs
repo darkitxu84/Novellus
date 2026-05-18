@@ -18,7 +18,7 @@ public class PluginInfo : IPluginInfo
     private bool IsValid(string filePath)
     {
         // todo: validations!!! yeey!!
-        var dir =  Path.GetDirectoryName(filePath);
+        var dir = Path.GetDirectoryName(filePath);
         return File.Exists(Path.Combine(dir!, Dll));
     }
 

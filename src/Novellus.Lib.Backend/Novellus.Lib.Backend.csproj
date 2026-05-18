@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="CriFsV2Lib" Version="2.1.2" />
     <PackageReference Include="SharpYaml" Version="3.7.1" />
+    <PackageReference Include="SmartFormat" Version="3.6.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace NovellusLib.Packages;
+﻿namespace Novellus.Lib.Backend.Packages;
 
 // for compatibility reasons with aemulus
 // don't change the class name or properties names

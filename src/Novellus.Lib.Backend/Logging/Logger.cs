@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
+﻿using Novellus.Lib.Backend.Logging.Formatters;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Channels;
-using Novellus.Lib.Backend.Logging.Formatters;
 
 namespace Novellus.Lib.Backend.Logging;
 
@@ -48,7 +48,7 @@ public static class Logger
     {
         // the gui will listen to this event and will receive the logs buffer to print them in a console window
         // consider pass a formatted string and the log level instead of the whole log entries
-        OnFlush?.Invoke([.._logsBuffer]);
+        OnFlush?.Invoke([.. _logsBuffer]);
         _logsBuffer.Clear();
 
         var sbString = _sb.ToString();
@@ -149,7 +149,7 @@ public static class Logger
         if (_fileLogSb.Length > 0)
             FileFlushLogsBuffer();
         _fileLogWriter.WriteLine($"----- Log ended at {CachedNow:G} -----");
-        
+
         _flushTimer.Dispose();
         _fileLogWriter.Dispose();
     }

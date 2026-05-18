@@ -14,7 +14,7 @@ public static class Yaml
     public static T? TryLoad<T>(string filePath)
     {
         string fileName = Path.GetFileName(filePath);
-        
+
         if (!File.Exists(filePath))
         {
             Logger.Error($"Cannot open {fileName}: file does not exist");
@@ -23,18 +23,18 @@ public static class Yaml
 
         string yaml = File.ReadAllText(filePath);
         T? yamlClass;
-        
+
         try
         {
             yamlClass = YamlSerializer.Deserialize<T>(yaml, SerializerOptions);
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             // TODO: Proper logging
-            Logger.Error($"Cannot parse {fileName}: not a valid yaml file");
+            Logger.Error($"Cannot parse {fileName}: {e.Message}");
             return default;
         }
-        
+
         return yamlClass;
     }
 
@@ -42,7 +42,7 @@ public static class Yaml
     {
         var fileName = Path.GetFileName(filePath);
         string yaml;
-        
+
         try
         {
             yaml = YamlSerializer.Serialize(obj, SerializerOptions);
@@ -52,7 +52,7 @@ public static class Yaml
             Logger.Error($"Cannot save yaml to {fileName}: {e}");
             return false;
         }
-        
+
         File.WriteAllText(filePath, yaml);
         return true;
     }

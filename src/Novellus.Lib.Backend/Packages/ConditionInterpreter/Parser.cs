@@ -1,21 +1,28 @@
 using Novellus.Lib.Backend.Logging;
+using System.Globalization;
 
-namespace Novellus.Lib.Backend.Packages.PackageConfig.ConditionInterpreter;
+namespace Novellus.Lib.Backend.Packages.ConditionInterpreter;
 
-public sealed class Parser(List<Token> tokens)
+public static class Parser
 {
-    private List<Token> Tokens { get; init; } = tokens;
-    private int Pos { get; set; } = 0;
+    private static List<Token>? Tokens { get; set; }
+    private static int Pos { get; set; } = 0;
 
-    public AstNode? Parse()
+    // PRECEDENCE:
+    // or -> and -> not -> comparison -> primary
+
+    public static AstNode? Parse(List<Token> tokens)
     {
+        Tokens = tokens;
+        Pos = 0;
+
         var node = ParseOr();
         if (node is null) return null;
 
         return !Check(TokenType.Eof) ? null : node;
     }
 
-    private AstNode? ParseOr()
+    private static AstNode? ParseOr()
     {
         var left = ParseAnd();
         if (left is null) return null;
@@ -24,7 +31,7 @@ public sealed class Parser(List<Token> tokens)
         {
             var opToken = Current(); // before parse and, for logging purposes
             Advance();
-            
+
             var right = ParseAnd();
             if (right is null)
             {
@@ -36,16 +43,16 @@ public sealed class Parser(List<Token> tokens)
 
         return left;
     }
-    private AstNode? ParseAnd()
+    private static AstNode? ParseAnd()
     {
         var left = ParseNot();
         if (left is null) return null;
 
         while (Check(TokenType.And))
         {
-            var  opToken = Current();
+            var opToken = Current();
             Advance();
-            
+
             var right = ParseNot();
             if (right is null)
             {
@@ -54,16 +61,16 @@ public sealed class Parser(List<Token> tokens)
             }
             left = new LogicalOpNode(LogicalOperator.And, left, right);
         }
-        
+
         return left;
     }
-    private AstNode? ParseNot()
+    private static AstNode? ParseNot()
     {
         if (Check(TokenType.Not))
         {
-            var opToken  = Current();
+            var opToken = Current();
             Advance();
-            
+
             var operand = ParseNot();
             if (operand is null)
             {
@@ -75,7 +82,7 @@ public sealed class Parser(List<Token> tokens)
 
         return ParseComparison();
     }
-    private AstNode? ParseComparison()
+    private static AstNode? ParseComparison()
     {
         var left = ParsePrimary();
         if (left is null) return null;
@@ -83,22 +90,22 @@ public sealed class Parser(List<Token> tokens)
         if (Current().Type.IsComparisonOperator())
         {
             var opToken = Current();
+            var op = opToken.Type.GetComparisonOperator();
             Advance();
-            
+
             var right = ParsePrimary();
             if (right is null)
             {
                 Logger.Error($"expected value after '{opToken.Value}' at position {opToken.Position}");
                 return null;
             }
-            
-            var op = Current().Type.GetComparisonOperator();
+
             return new ComparisonNode(op, left, right);
         }
 
         return left;
     }
-    private AstNode? ParsePrimary()
+    private static AstNode? ParsePrimary()
     {
         Token t = Current();
         TokenType type = t.Type;
@@ -106,10 +113,9 @@ public sealed class Parser(List<Token> tokens)
         switch (type)
         {
             case TokenType.ModEnabled:
-                return ParseMacro("MOD_ENABLED");
+                return ParseMacro(Macro.ModEnabled);
             case TokenType.ModVersion:
-                return ParseMacro("MOD_VERSION");
-            
+                return ParseMacro(Macro.ModVersion);
             case TokenType.StringLiteral:
                 Advance();
                 return new StringValueNode(t.Value!);
@@ -118,42 +124,41 @@ public sealed class Parser(List<Token> tokens)
                 return new NumberValueNode(int.Parse(t.Value!)); // TODO: handle cases where parse is null
             case TokenType.FloatLiteral:
                 Advance();
-                return new FloatValueNode(float.Parse((t.Value!)));
-            
+                return new FloatValueNode(float.Parse(t.Value!, CultureInfo.InvariantCulture));
             case TokenType.Identifier:
                 Advance();
                 return new OptionValueNode(t.Value!);
             case TokenType.LeftParen:
-            {
-                int openPos = t.Position; // save pos for logging 
-                Advance();
-            
-                var inner = ParseOr(); // go back to the begin
-                if (inner is null) return null;
-                if (!Check(TokenType.RightParen))
                 {
-                    Logger.Error($"expected ')' to close parenthesis opened at {openPos} but found {Current().Value} at position {Current().Position}");
-                    return null;
-                }
+                    int openPos = t.Position; // save pos for logging 
+                    Advance();
 
-                Advance();
-                return inner;
-            }
+                    var inner = ParseOr(); // go back to the begin
+                    if (inner is null) return null;
+                    if (!Check(TokenType.RightParen))
+                    {
+                        Logger.Error($"expected ')' to close parenthesis opened at {openPos} but found {Current().Value} at position {Current().Position}");
+                        return null;
+                    }
+
+                    Advance();
+                    return inner;
+                }
             default:
                 Logger.Error($"unexpected token at position {Current().Position}");
                 return null;
         }
     }
-    private MacroCallNode? ParseMacro(string macroName)
+    private static MacroCallNode? ParseMacro(Macro macro)
     {
         Advance();
-        
+
         if (Expect(TokenType.LeftParen) == null)
         {
             Logger.Error($"expected '(' after macro call at position {Current().Position}");
             return null;
         }
-        
+
         var idToken = Expect(TokenType.Identifier);
         if (idToken == null)
         {
@@ -163,17 +168,17 @@ public sealed class Parser(List<Token> tokens)
 
         if (Expect(TokenType.RightParen) == null)
         {
-            Logger.Error($"expected ')' to close {macroName}(...) at position {Current().Position}");
+            Logger.Error($"expected ')' to close {macro}(...) at position {Current().Position}");
             return null;
         }
-        
-        return new MacroCallNode(macroName, [idToken.Value!]);
+
+        return new MacroCallNode(macro, [idToken.Value!]);
     }
 
-    private Token Current() => Tokens[Pos];
-    private bool Check(TokenType type) => Current().Type == type;
+    private static Token Current() => Tokens[Pos];
+    private static bool Check(TokenType type) => Current().Type == type;
 
-    private Token Advance()
+    private static Token Advance()
     {
         var token = Current();
         if (token.Type != TokenType.Eof)
@@ -181,7 +186,7 @@ public sealed class Parser(List<Token> tokens)
         return token;
     }
 
-    private Token? Expect(TokenType type)
+    private static Token? Expect(TokenType type)
     {
         if (!Check(type))
         {

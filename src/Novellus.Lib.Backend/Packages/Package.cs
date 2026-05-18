@@ -1,16 +1,21 @@
 ﻿using Novellus.Lib.Core.Packages;
-using NovellusLib.Packages;
+using Novellus.Lib.Core.Packages.PackageConfig;
 using SharpYaml.Serialization;
 
 namespace Novellus.Lib.Backend.Packages;
 
-public class Package : IPackage
+public sealed class Package : IPackage
 {
-    public IPackageMetadata Metadata { get; set; } = new PackageMetadata();
-    public IPackageConfiguration? Configuration { get; set; } = new PackageConfiguration();
+    public PackageMetadata Metadata { get; set; } = new PackageMetadata();
+    public PackageConfiguration? Configuration { get; set; } = new PackageConfiguration();
     [YamlIgnore] public string Path { get; set; } = "";
-    
-    // debug stuff
+    [YamlIgnore] public List<ApiCall> ApiCalls { get; set; } = [];
+
+    // the gui should be able to edit the metadata and configuration of the package,
+    // but the managers should only be able to read them, so we have explicit interface implementations here
+    IPackageMetadata IPackage.Metadata => Metadata;
+    IPackageConfiguration? IPackage.Configuration => Configuration;
+
 #if DEBUG
     public override string ToString()
     {
@@ -33,7 +38,7 @@ public class Package : IPackage
             Description = "The best Jack Sexo HD mod ever created!",
             Dependencies = ["jacksexohdfanclub.jacksexolib"]
         };
-        
+
         Package pkg = new()
         {
             Path = Environment.CurrentDirectory,

@@ -8,29 +8,28 @@ namespace Novellus.Lib.Backend.Packages;
 public class PackageMetadata : IPackageMetadata
 {
     // kind of arbitrary values
-    private const int NAME_MAX_L = 24;
-    private const int ID_MAX_L = 24;
-    private const int AUTHOR_MAX_L = 24;
+    private const int NAME_MAX_L = 30;
+    private const int ID_MAX_L = 30;
+    private const int AUTHOR_MAX_L = 30;
     private const int VERSION_MAX_L = int.MaxValue;
     private const int LINK_MAX_L = int.MaxValue;
     private const int DESCRIPTION_MAX_L = 40;
-    
+
     [YamlRequired] public string Name { get; init; } = string.Empty;
-    [YamlRequired] public string Id { get; init; }  = string.Empty;
-    [YamlRequired] public string Author { get; init; }  = string.Empty;
+    [YamlRequired] public string Id { get; init; } = string.Empty;
+    [YamlRequired] public string Author { get; init; } = string.Empty;
     [YamlRequired] public string Version { get; set; } = string.Empty;
     [YamlRequired] public string Link { get; init; } = string.Empty;
-    [YamlRequired] public string Description { get; init; }  = string.Empty; 
+    [YamlRequired] public string Description { get; init; } = string.Empty;
     public List<string>? Dependencies { get; init; }
 
     public static PackageMetadata? LoadFromFile(string filePath)
     {
         var pkgMetadata = Yaml.TryLoad<PackageMetadata>(filePath);
         if (pkgMetadata is not null && pkgMetadata.IsValid()) return pkgMetadata;
-        Logger.Error($"Cannot load package metadata file '{filePath}'. See logs for details.");
         return null;
     }
-    
+
     private bool IsValid()
     {
         static void LogError(string message) => Logger.Error($"Error reading metadata: {message}");
@@ -57,7 +56,7 @@ public class PackageMetadata : IPackageMetadata
             LogError($"link is not a valid URL");
             return false;
         }
-        
+
         // implement version check (idk how aemulus handles versions)
 
         return true;
@@ -67,7 +66,7 @@ public class PackageMetadata : IPackageMetadata
 #if DEBUG
     public override string ToString()
     {
-        return 
+        return
             $"{string.Concat(Enumerable.Repeat("=", 35))} METADATA {string.Concat(Enumerable.Repeat("=", 35))}\n" +
             $"- Name: {Name}\n" +
             $"- Id: {Id}\n" +
@@ -75,7 +74,6 @@ public class PackageMetadata : IPackageMetadata
             $"- Author: {Author}\n" +
             $"- Link: {Link}\n" +
             $"- Description: {Description}\n" +
-            $"- Dependencies:\n\t- {string.Join("\n\t- ", Dependencies)}\n" +
             $"{string.Concat(Enumerable.Repeat("=", 80))}";
     }
 #endif

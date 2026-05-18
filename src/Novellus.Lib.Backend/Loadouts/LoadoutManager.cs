@@ -4,10 +4,10 @@ public static class LoadoutManager
 {
     public static bool IsValidLoadout(Loadout loadout)
     {
-        
+
         return true;
     }
-    
+
     /*
     public static List<Loadout>? GetGameLoadouts(Game game)
     {

@@ -1,4 +1,4 @@
-namespace Novellus.Lib.Backend.Packages.PackageConfig.ConditionInterpreter;
+namespace Novellus.Lib.Backend.Packages.ConditionInterpreter;
 
 public enum TokenType
 {
@@ -7,12 +7,12 @@ public enum TokenType
     StringLiteral,
     NumberLiteral,
     FloatLiteral,
-    
+
     // logical operators
     Or,
     And,
     Not,
-    
+
     // comparison operators
     Equal,
     NotEqual,
@@ -20,12 +20,12 @@ public enum TokenType
     LessThanOrEqual,
     GreaterThan,
     LessThan,
-    
+
     // punctuation
     LeftParen,
     RightParen,
     Comma,
-    
+
     // macros
     ModEnabled,
     ModVersion,
@@ -38,4 +38,3 @@ public record Token(TokenType Type, string? Value, int Position)
     public string? Value { get; set; } = Value;
     public int Position { get; set; } = Position;
 }
-

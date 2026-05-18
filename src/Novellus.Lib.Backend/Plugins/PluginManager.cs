@@ -1,8 +1,7 @@
-using System.Runtime.Loader;
-using AtlusScriptLibrary.Common.Collections;
 using Novellus.Lib.Backend.Logging;
 using Novellus.Lib.Core;
 using Novellus.Lib.Core.Plugins;
+using System.Runtime.Loader;
 
 namespace Novellus.Lib.Backend.Plugins;
 
@@ -18,15 +17,15 @@ public static class PluginManager
         return games;
     }
 
-    public static IGameIntegration? GetGameIntegration(string gameId) 
+    public static IGameIntegration? GetGameIntegration(string gameId)
         => GameIntegrations.GetValueOrDefault(gameId);
-    
+
     public static IPluginInfo? GetPluginInfo(string pluginId)
-        =>  PluginsInfo.GetValueOrDefault(pluginId);
-    
+        => PluginsInfo.GetValueOrDefault(pluginId);
+
     public static List<IPluginInfo> GetLoadedPluginsInfo()
         => PluginsInfo.Values.ToList();
-    
+
     public static void LoadPlugins()
     {
         if (!Directory.Exists(Folders.Plugins)) return;

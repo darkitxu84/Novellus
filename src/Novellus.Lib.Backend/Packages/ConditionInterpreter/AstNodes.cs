@@ -1,5 +1,6 @@
-namespace Novellus.Lib.Backend.Packages.PackageConfig.ConditionInterpreter;
+namespace Novellus.Lib.Backend.Packages.ConditionInterpreter;
 
+// do not be confused by the name, this isn't Atlus Script Tools, this is Abstract Syntax Tree
 public abstract class AstNode { };
 public sealed class LogicalOpNode(LogicalOperator op, AstNode left, AstNode right) : AstNode
 {
@@ -20,9 +21,9 @@ public sealed class NotNode(AstNode operand) : AstNode
     public AstNode Operand { get; init; } = operand;
 }
 
-public sealed class MacroCallNode(string macroName, List<string> args) : AstNode
+public sealed class MacroCallNode(Macro macro, List<string> args) : AstNode
 {
-    public string MacroName { get; init; } =  macroName;
+    public Macro Macro { get; init; } = macro;
     public List<string> Args { get; init; } = args;
 }
 
