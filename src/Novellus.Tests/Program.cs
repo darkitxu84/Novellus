@@ -1,10 +1,12 @@
 ﻿using System.Text.Json;
 using Novellus.Lib.Backend.FileSystems;
 using Novellus.Lib.Backend.Logging;
+using Novellus.Lib.Backend.Mergers;
 using Novellus.Lib.Backend.Packages;
-using Novellus.Lib.Backend.Packages.PackageConfig.ConditionInterpreter;
+using Novellus.Lib.Backend.Packages.ConditionInterpreter;
 using Novellus.Lib.Backend.Plugins;
 using Novellus.Lib.Core;
+using Novellus.Lib.Core.Packages.PackageConfig;
 
 namespace NovellusTests;
 
@@ -14,11 +16,9 @@ public class Program
     {
         const string testCondition =
             "MOD_ENABLED(some.id) and MOD_VERSION(some.id) >= 23.4";
-        Lexer lexer = new(testCondition);
-        List<Token>? tokens = lexer.Tokenize();
-        
-        Parser parser = new(tokens);
-        parser.Parse();
+
+        List<Token>? tokens = Lexer.Tokenize(testCondition);
+        var initNode = Parser.Parse(tokens);
 
         if (tokens != null)
         {
@@ -30,8 +30,8 @@ public class Program
     }
     public static void Main(string[] args)
     {
-        TestLexer();
-        Folders.Initialize(".");
+        //TestLexer();
+        Folders.Initialize("C:\\Users\\darki-win\\Documents\\novellus_test");
         Directory.CreateDirectory(Folders.Root);
         Directory.CreateDirectory(Folders.Dumps);
         Directory.CreateDirectory(Folders.Libraries);
@@ -42,11 +42,11 @@ public class Program
         Directory.CreateDirectory(Folders.Loadouts);
         Directory.CreateDirectory(Folders.Charsets);
         Directory.CreateDirectory(Folders.Plugins);
-        
-        PluginManager.LoadPlugins();
-        foreach (var game in PluginManager.GetSupportedGames())
-        {
-            Console.WriteLine($"{game.Identifier}: {game.Name}");
-        }
+        Directory.CreateDirectory(Folders.Packages);
+
+        var packages = PackageManager.LoadPackagesFromGame("test");
+        PackageManager.ProcessPackagesConfiguration(packages);
+        AwbMerger.Merge(packages, "test", "C:\\Users\\darki-win\\Desktop\\OUTPUT\\NOV");
+        Logger.Shutdown();
     }
 }
