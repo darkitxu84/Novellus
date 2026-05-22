@@ -1,6 +1,7 @@
 ﻿using Novellus.Lib.Backend;
 using Novellus.Lib.Backend.FileSystems;
 using Novellus.Lib.Backend.Logging;
+using Novellus.Lib.Backend.Mergers;
 using Novellus.Lib.Core.Packages;
 using Novellus.Lib.Core.Plugins;
 
@@ -24,6 +25,7 @@ public sealed class PQManager(ConfigPQ config) : ModManager(PQInfo.GameInfo), IL
 {
     public override Task Build(IEnumerable<IPackage> sortedPackages)
     {
+        AwbMerger.Merge(sortedPackages, GameInfo.Identifier, config.OutputPath);
         throw new NotImplementedException();
     }
 

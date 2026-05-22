@@ -1,4 +1,6 @@
 ﻿using AtlusFileSystemLibrary.Common.IO;
+
+
 using AtlusFileSystemLibrary.FileSystems.PAK;
 using Novellus.Lib.Backend.Logging;
 using System.Collections.Frozen;
@@ -16,16 +18,16 @@ namespace Novellus.Lib.Backend.FileSystems
     public static class PAK
     {
         // safe for parallel use
-        private static readonly FrozenSet<string> FileExtensions =
+        public static readonly FrozenSet<string> FileExtensions =
             new[] { ".bin", ".f00", ".f01", ".p00", ".p01", ".fpc", ".pak", ".pac", ".pack", ".se", ".arc", ".abin", ".se", ".pse", ".tpc" }
                 .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
         // wanted extensions when we're extracting the game files
-        private static readonly FrozenSet<string> WantedExtensions =
+        public static readonly FrozenSet<string> WantedExtensions =
             new[] { ".bf", ".bmd", ".pm1", ".acb", ".awb", ".ctd", ".ftd", ".dat", ".spd", ".gtx" }
                 .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
-        private static bool TryGetValidPak(string path, [NotNullWhen(true)] out PAKFileSystem? pak)
+        public static bool TryGetValidPak(string path, [NotNullWhen(true)] out PAKFileSystem? pak)
         {
             pak = null;
 
