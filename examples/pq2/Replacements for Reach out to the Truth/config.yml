@@ -1,0 +1,26 @@
+settings:
+  - id: SelectedBGM
+    name: Selected Battle BGM
+    description: Replace the default BGM
+    category: Music
+    type: choice
+    default: thefog
+    value: goingdown
+    choices:
+     - name: Megalovania (Undertale)
+       value: Megalovania
+     - name: I'll Face Myself (Persona 4)
+       value: facemyself
+     - name: ASGORE (Undertale)
+       value: asgore
+     - name: The Fog (Persona 4)
+       value: facemyself
+     - name: It's Going Down Now (Persona 3 Reload)
+       value: goingdown
+
+actions:
+    - do:
+      - run: AddFolderToAwb
+        with:
+          - songs/{SelectedBGM}
+          - sound/bgm/bgm
