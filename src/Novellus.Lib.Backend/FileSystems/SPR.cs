@@ -162,9 +162,10 @@ public static class SPR
                     {
                         ArrayPool<byte>.Shared.Return(newSpr);
                     }
-
                     sprStreamMemory.Position = 0;
                     UpdateOffsets(sprStreamMemory, GetTmxOffsets(sprStreamMemory));
+                    sprStreamMemory.Position = 0;
+                    sprTxmNames = GetTmxNames(sprStreamMemory);
                 }
             }
             finally

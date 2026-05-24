@@ -2,7 +2,6 @@
 using Novellus.Lib.Backend.Logging;
 using Novellus.Lib.Core;
 using Novellus.Lib.Core.Packages;
-using System.Runtime.CompilerServices;
 
 namespace Novellus.Lib.Backend.Mergers;
 

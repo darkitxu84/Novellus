@@ -7,12 +7,17 @@ using Novellus.Lib.Core.Packages;
 
 namespace Novellus.Lib.Backend.Mergers;
 
+// TODO: rn the mergers are kind of hardcoded (just spr/spd in this case)
+// ideally we should have a more generic system, where we can define "mergable types" and how to merge them
+// so we can easily add new types in the future without having to change the merger logic
+// we only need spr/spd for now tho, so it's not a big deal, but it's something to keep in mind for the future
+
 public static class PACMerger
 {
     // we need to build a map of the files inside the PACS
     // but, we can have a PAC inside a PAC, so we need to build a tree structure to represent this
     // then we build from the leafs to the root, merging the files and the subPACS
-    private class PakNode
+    private sealed class PakNode
     {
         public string RelativePath { get; set; } = string.Empty;
         public List<PakNode> Children { get; set; } = [];
