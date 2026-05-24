@@ -142,8 +142,8 @@ public static class AwbMerger
 
         foreach (var apiCall in awbApiCalls)
         {
-            Logger.Info("RUN: " + apiCall.Run);
-            Logger.Info("WITH: ");
+            Logger.Debug("RUN: " + apiCall.Run);
+            Logger.Debug("WITH: ");
             foreach (var with in apiCall.With) Logger.Info($"\t{with}");
         }
 
@@ -154,12 +154,18 @@ public static class AwbMerger
             string absolutePath = Path.Combine(package.Path, PathUtils.NormalizePath(apiCall.With[0]));
             string relativeAwbPath = PathUtils.NormalizePath(apiCall.With[1]);
 
+            if (!Directory.Exists(absolutePath))
+            {
+                Logger.Warn($"Directory '{absolutePath}' from 'AddFolderToAwb' api call of '{package.Metadata.Id}' package doesn't exist. Skipping...");
+                continue;
+            }
+            
             var dumpAcbPath = Path.Combine(Folders.Dumps, gameId, relativeAwbPath);
             if (!SoundArchiveExists(dumpAcbPath))
             {
                 Logger.Warn($"No sound archive found on unpacked game files '{dumpAcbPath}' " +
                             $"required by '{package.Metadata.Id}' package. Did you forget to unpack the game files?");
-                //continue;
+                continue;
             }
 
             ProcessFilesIntoMap(awbsMap, absolutePath, relativeAwbPath, package.Metadata.Id);
