@@ -8,7 +8,7 @@ settings:
     value: goingdown
     choices:
      - name: Megalovania (Undertale)
-       value: Megalovania
+       value: megalovania
      - name: I'll Face Myself (Persona 4)
        value: facemyself
      - name: ASGORE (Undertale)
