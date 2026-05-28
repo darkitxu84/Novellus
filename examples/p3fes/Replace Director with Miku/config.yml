@@ -1,0 +1,16 @@
+settings:
+  - id: ReplaceYuichiroWithTeto
+    name: Replace the name of Yuichiro Tanaka with Kasane Teto
+    description: Replaces the scenerio writer 'Yuihciro Tanaka' with Kasane Teto
+    category: Patches
+    type: bool
+    default: false
+    value: true
+
+actions:
+  - if: "ReplaceYuichiroWithTeto"
+    do:
+      - run: AddBinaryPatch
+        with:
+          - config/teto.bp
+

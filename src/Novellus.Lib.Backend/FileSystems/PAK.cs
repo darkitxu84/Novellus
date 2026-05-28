@@ -27,35 +27,23 @@ namespace Novellus.Lib.Backend.FileSystems
             new[] { ".bf", ".bmd", ".pm1", ".acb", ".awb", ".ctd", ".ftd", ".dat", ".spd", ".gtx" }
                 .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
-        public static bool TryGetValidPak(string path, [NotNullWhen(true)] out PAKFileSystem? pak)
+        public static bool IsPak(string ext) => FileExtensions.Contains(ext);
+        public static string NormalizePath(IReadOnlySet<string> pacContents, string relativePath)
         {
-            pak = null;
-
-            if (!File.Exists(path))
+            relativePath = relativePath.Replace("\\", "/");
+            if (pacContents.Contains($"../../../{relativePath}"))
             {
-                Logger.Error($"{path} does not exist.");
-                return false;
+                return $"../../../{relativePath}";
             }
-            if (!PAKFileSystem.TryOpen(path, out pak))
+            else if (pacContents.Contains($"../../{relativePath}"))
             {
-                Logger.Error($"{path} is an invalid PAK file.");
-                return false;
+                return $"../../{relativePath}";
             }
-
-            return true;
-        }
-
-        public static bool IsValidPak;
-
-        public static List<string>? GetFileContents(string path)
-        {
-            if (!TryGetValidPak(path, out var pak))
-                return null;
-
-            using (pak)
+            else if (pacContents.Contains($"../{relativePath}"))
             {
-                return [.. pak.EnumerateFiles()];
+                return $"../{relativePath}";
             }
+            return relativePath;
         }
 
         public static bool UnpackFromFile(string inputPath, string? outputPath = null)
@@ -63,7 +51,7 @@ namespace Novellus.Lib.Backend.FileSystems
             outputPath ??= Path.ChangeExtension(inputPath, null);
             Directory.CreateDirectory(outputPath);
 
-            if (!TryGetValidPak(inputPath, out var pak))
+            if (!File.Exists(inputPath) || PAKFileSystem.TryOpen(inputPath, out var pak))
                 return false;
 
             using (pak)
@@ -80,30 +68,7 @@ namespace Novellus.Lib.Backend.FileSystems
             return true;
         }
 
-        public static bool Pack()
-        {
-            return true;
-        }
-
-        public static bool Add(string pakPath, string[] files, bool replace = false)
-        {
-            if (!TryGetValidPak(pakPath, out var pak))
-            {
-                // Logger.Error($"Could not add/replace files to: {pakPath}");
-                return false;
-            }
-
-            using (pak)
-            {
-                foreach (string file in files)
-                {
-                    // if (pak.Exists( ))
-                }
-            }
-
-            return true;
-        }
-
+        // Probably we don't need this function anymore
         public static void ExtractWantedFiles(string directory)
         {
             if (!Directory.Exists(directory))

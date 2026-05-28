@@ -12,6 +12,7 @@ namespace Novellus.Lib.Backend.Mergers;
 // so we can easily add new types in the future without having to change the merger logic
 // we only need spr/spd for now tho, so it's not a big deal, but it's something to keep in mind for the future
 
+// also, this code is kinda bad, so maybe refactor this in the future
 public static class PACMerger
 {
     // we need to build a map of the files inside the PACS
@@ -33,7 +34,6 @@ public static class PACMerger
         public List<(string RelativePath, string SourcePath)> Files { get; set; } = [];
     }
 
-    private static bool IsPakFile(string ext) => PAK.FileExtensions.Contains(ext);
 
     private static bool IsSpriteFile(string ext)
         => ext.Equals(".spr", StringComparison.OrdinalIgnoreCase) || ext.Equals(".spd", StringComparison.OrdinalIgnoreCase);
@@ -44,7 +44,7 @@ public static class PACMerger
         {
 
             string relativePath = Path.GetRelativePath(pakRoot, entry);
-            string entryExt = Path.GetExtension(entry) ?? ".";
+            string ext = Path.GetExtension(entry) ?? ".";
 
             if (!Directory.Exists(entry))
             {
@@ -52,18 +52,18 @@ public static class PACMerger
                 continue;
             }
 
-            if (IsPakFile(entryExt))
+            if (PAK.IsPak(ext))
             {
                 var child = new PakNode { RelativePath = relativePath };
                 node.Children.Add(child);
                 BuildPakNode(entry, child);
             }
-            else if (IsSpriteFile(entryExt))
+            else if (IsSpriteFile(ext))
             {
                 var child = new SpriteNode
                 {
                     RelativePath = relativePath,
-                    Type = (entryExt.Equals(".spr", StringComparison.OrdinalIgnoreCase)) ? SpriteType.Spr : SpriteType.Spd
+                    Type = (ext.Equals(".spr", StringComparison.OrdinalIgnoreCase)) ? SpriteType.Spr : SpriteType.Spd
                 };
                 node.Sprites.Add(child);
                 BuildSprNode(entry, child);
@@ -87,7 +87,7 @@ public static class PACMerger
         foreach (var entry in Directory.EnumerateFileSystemEntries(absoluteDir))
         {
             string relativePath = Path.GetRelativePath(absoluteDir, entry);
-            string entryExt = Path.GetExtension(entry) ?? ".";
+            string ext = Path.GetExtension(entry) ?? ".";
 
             if (!Directory.Exists(entry))
             {
@@ -95,18 +95,18 @@ public static class PACMerger
                 continue;
             }
 
-            if (IsPakFile(entryExt))
+            if (PAK.IsPak(ext))
             {
                 var child = new PakNode { RelativePath = relativePath };
                 node.Children.Add(child);
                 BuildPakNode(entry, child);
             }
-            else if (IsSpriteFile(entryExt))
+            else if (IsSpriteFile(ext))
             {
                 var child = new SpriteNode
                 {
                     RelativePath = relativePath,
-                    Type = (entryExt.Equals(".spr", StringComparison.OrdinalIgnoreCase)) ? SpriteType.Spr : SpriteType.Spd
+                    Type = (ext.Equals(".spr", StringComparison.OrdinalIgnoreCase)) ? SpriteType.Spr : SpriteType.Spd
                 };
                 node.Sprites.Add(child);
                 BuildSprNode(entry, child);
@@ -123,7 +123,7 @@ public static class PACMerger
             var relativePath = Path.GetRelativePath(pacFolder, entry);
             string ext = Path.GetExtension(entry) ?? ".";
 
-            if (IsPakFile(ext))
+            if (PAK.IsPak(ext))
             {
                 var incoming = new PakNode { RelativePath = relativePath };
                 BuildPakNode(entry, incoming);
@@ -184,23 +184,7 @@ public static class PACMerger
             else MergeNode(existingChild, incomingChild);
         }
     }
-    public static string NormalizePath(IReadOnlySet<string> pacContents, string relativePath)
-    {
-        relativePath = relativePath.Replace("\\", "/");
-        if (pacContents.Contains($"../../../{relativePath}"))
-        {
-            return $"../../../{relativePath}";
-        }
-        else if (pacContents.Contains($"../../{relativePath}"))
-        {
-            return $"../../{relativePath}";
-        }
-        else if (pacContents.Contains($"../{relativePath}"))
-        {
-            return $"../{relativePath}";
-        }
-        return relativePath;
-    }
+
     private static Stream MergeNodeIntoPac(Stream source, PakNode node)
     {
         PAKFileSystem.TryOpen(source, true, out var pac);
@@ -208,7 +192,7 @@ public static class PACMerger
 
         foreach (var child in node.Children)
         {
-            string normalizedPath = NormalizePath(contents, child.RelativePath);
+            string normalizedPath = PAK.NormalizePath(contents, child.RelativePath);
             if (!contents.Contains(normalizedPath))
             {
                 Logger.Warn($"PAC '{normalizedPath}' not found in pac '{node.RelativePath}'. Skipping...");
@@ -220,11 +204,11 @@ public static class PACMerger
         }
 
         foreach (var (relativePath, sourcePath) in node.Files)
-            pac.AddFile(NormalizePath(contents, relativePath), sourcePath, ConflictPolicy.Replace);
+            pac.AddFile(PAK.NormalizePath(contents, relativePath), sourcePath, ConflictPolicy.Replace);
 
         foreach (var spr in node.Sprites)
         {
-            string normalizedPath = NormalizePath(contents, spr.RelativePath!);
+            string normalizedPath = PAK.NormalizePath(contents, spr.RelativePath!);
             if (!contents.Contains(normalizedPath))
             {
                 Logger.Warn($"SPR '{normalizedPath}' not found in pac {node.RelativePath}. Skipping...");
@@ -272,7 +256,7 @@ public static class PACMerger
 
             foreach (var children in rootNode.Children)
             {
-                string normalizedPath = NormalizePath(contents, children.RelativePath);
+                string normalizedPath = PAK.NormalizePath(contents, children.RelativePath);
                 if (!contents.Contains(normalizedPath))
                 {
                     Logger.Warn($"PAC '{normalizedPath}' not found in pac '{originalPacPath}'. Skipping...");
@@ -284,11 +268,11 @@ public static class PACMerger
             }
 
             foreach (var (RelativePath, SourcePath) in rootNode.Files)
-                pac.AddFile(NormalizePath(contents, RelativePath), SourcePath, ConflictPolicy.Replace);
+                pac.AddFile(PAK.NormalizePath(contents, RelativePath), SourcePath, ConflictPolicy.Replace);
 
             foreach (var spr in rootNode.Sprites)
             {
-                string normalizedPath = NormalizePath(contents, spr.RelativePath!);
+                string normalizedPath = PAK.NormalizePath(contents, spr.RelativePath!);
                 if (!contents.Contains(normalizedPath))
                 {
                     Logger.Warn($"SPR '{normalizedPath}' not found in pac {originalPacPath}. Skipping...");

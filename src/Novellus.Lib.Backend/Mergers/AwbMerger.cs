@@ -2,6 +2,7 @@
 using Novellus.Lib.Backend.Logging;
 using Novellus.Lib.Core;
 using Novellus.Lib.Core.Packages;
+using Novellus.Lib.Backend;
 
 namespace Novellus.Lib.Backend.Mergers;
 
@@ -135,31 +136,15 @@ public static class AwbMerger
         IPackage package,
     string gameId)
     {
-        // TODO: create some helper functions to process api calls and avoid code duplication with the directory processing
-        var awbApiCalls = package.ApiCalls
-            .Where(c => c.Run is "AddFolderToAwb" or "AddFileToAwb")
-            .ToList();
+        var awbApiCalls = ApiCalls.ResolveArgs(package, "AddFolderToAwb", ArgKind.PackagePath, ArgKind.Path);
+        if (awbApiCalls is null || awbApiCalls.Length == 0) return;
 
-        foreach (var apiCall in awbApiCalls)
-        {
-            Logger.Debug("RUN: " + apiCall.Run);
-            Logger.Debug("WITH: ");
-            foreach (var with in apiCall.With) Logger.Info($"\t{with}");
-        }
+        Logger.Debug("RUN: AddFolderToAwb");
+        Logger.Debug("WITH:");
+        foreach (var arg in awbApiCalls) Logger.Debug($"\t{arg}");
 
-        foreach (var apiCall in awbApiCalls)
-        {
-            if (apiCall.Run != "AddFolderToAwb") continue;
-
-            string absolutePath = Path.Combine(package.Path, PathUtils.NormalizePath(apiCall.With[0]));
-            string relativeAwbPath = PathUtils.NormalizePath(apiCall.With[1]);
-
-            if (!Directory.Exists(absolutePath))
-            {
-                Logger.Warn($"Directory '{absolutePath}' from 'AddFolderToAwb' api call of '{package.Metadata.Id}' package doesn't exist. Skipping...");
-                continue;
-            }
-            
+        foreach (var (absolutePath, relativeAwbPath) in awbApiCalls)
+        {            
             var dumpAcbPath = Path.Combine(Folders.Dumps, gameId, relativeAwbPath);
             if (!SoundArchiveExists(dumpAcbPath))
             {

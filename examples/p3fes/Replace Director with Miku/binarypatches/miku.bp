@@ -1,0 +1,5 @@
+version: 2
+patches:
+ - file: "DATA/OPED/ED_SR_F.BIN/ed_staff_f.bin"
+   offset: 299
+   data: "48 61 74 73 75 6E 65 20 4D 69 6B 75 00" # "Hatsune Miku"

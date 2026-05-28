@@ -1,0 +1,5 @@
+version: 2
+patches:
+ - file: "DATA/OPED/ED_SR_F.BIN/ed_staff_f.bin"
+   offset: 421
+   data: "4B 61 73 61 6E 65 20 54 65 74 6F 00" # "Kasane Teto"
