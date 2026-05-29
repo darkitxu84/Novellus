@@ -36,7 +36,7 @@ public static class BinaryPatcher
             var include = ApiCalls.ResolveArgs(package, "AddBinaryPatch", ArgKind.PackageFile);
 
             var patchesFiles = Directory.Exists(binPatchesDir)
-                ? Directory.EnumerateFiles(binPatchesDir)
+                ? Directory.EnumerateFiles(binPatchesDir, "*.bp", SearchOption.AllDirectories)
                     .Where(c => !doNotInclude.Contains(Path.GetFileName(c)))
                     .ToList()
                 : [];
