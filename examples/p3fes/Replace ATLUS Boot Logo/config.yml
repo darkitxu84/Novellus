@@ -1,0 +1,25 @@
+settings:
+  - id: SelectedImage
+    name: Selected Image
+    description: The selected image to replace the logo
+    category: Misc
+    type: choice
+    default: aigis_meme
+    value: aigis_meme
+    choices:
+     - name: Aigis Random Meme
+       value: aigis_meme
+     - name: Ryuji Ryuji Sahur
+       value: ryuji_sahur
+     - name: Fuuka Meme
+       value: fuuka_meme
+     - name: Fuuka Meme 2
+       value: fuuka_meme2
+     - name: Da Man
+       value: da_man
+
+actions:
+    - do:
+      - run: AddTextureOverrideFolder
+        with:
+          - images/{SelectedImage}

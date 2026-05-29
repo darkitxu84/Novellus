@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <GenerateDependencyFile>false</GenerateDependencyFile> <!-- Do not include deps.json -->
     <RootNamespace>Novellus.Lib.Backend</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

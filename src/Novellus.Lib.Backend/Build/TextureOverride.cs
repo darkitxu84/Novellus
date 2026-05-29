@@ -53,12 +53,16 @@ public static class TextureOverride
         foreach (var package in packages)
         { 
             var texturesDir = Path.Combine(package.Path, "texture_override");
-            var include = ApiCalls.ResolveArgs(package, "AddTextureOverride", ArgKind.PackageFile);
+            var includePath = ApiCalls.ResolveArgs(package, "AddTextureOverrideFolder", ArgKind.PackagePath);
 
             var texturesFiles = Directory.Exists(texturesDir)
                 ? Directory.EnumerateFiles(texturesDir, "*", SearchOption.AllDirectories).ToList()
                 : [];
-            if (include is not null) texturesFiles.AddRange(include);
+            if (includePath is not null)
+            {
+                foreach (var path in includePath)
+                    texturesFiles.AddRange(Directory.GetFiles(path, "*", SearchOption.AllDirectories));
+            }
 
             foreach (var file in texturesFiles)
             {
