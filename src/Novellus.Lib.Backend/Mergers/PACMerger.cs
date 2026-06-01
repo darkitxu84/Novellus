@@ -224,7 +224,7 @@ public static class PACMerger
         return savedPacStream;
     }
 
-    public static void Merge(IEnumerable<IPackage> packages, string gameId, string outputPath)
+    public static void Merge(IEnumerable<IPackage> packages, string outputPath)
     {
         // we should know what PACS are roots (not inside another PAC)
         // so we can load then from disk
@@ -241,7 +241,7 @@ public static class PACMerger
 
         foreach (var (relativePath, rootNode) in pakRoots)
         {
-            var originalPacPath = Path.Combine(Folders.Dumps, gameId, relativePath);
+            var originalPacPath = GameFileService.GetFile(relativePath);
             var pacBuffer = new MemoryStream();
             using (FileStream fs = new(originalPacPath, FileMode.Open, FileAccess.Read))
                 fs.CopyTo(pacBuffer);
@@ -289,7 +289,7 @@ public static class PACMerger
 
         foreach (var (relativePath, sprNode) in sprRoots)
         {
-            var originalSprPath = Path.Combine(Folders.Dumps, gameId, relativePath);
+            var originalSprPath = GameFileService.GetFile(relativePath);
             var sprOutputPath = Path.Combine(outputPath, relativePath);
 
             if (!File.Exists(originalSprPath))

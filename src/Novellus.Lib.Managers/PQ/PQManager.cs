@@ -1,4 +1,5 @@
 ﻿using Novellus.Lib.Backend;
+using Novellus.Lib.Backend.Build.BinaryPatching;
 using Novellus.Lib.Backend.FileSystems;
 using Novellus.Lib.Backend.Logging;
 using Novellus.Lib.Backend.Mergers;
@@ -23,9 +24,15 @@ public sealed class PQIntegration : IGameIntegration
 
 public sealed class PQManager(ConfigPQ config) : ModManager(PQInfo.GameInfo), ILaunchable
 {
-    public override Task Build(IEnumerable<IPackage> sortedPackages)
+    public override async Task Build(IEnumerable<IPackage> sortedPackages)
     {
-        AwbMerger.Merge(sortedPackages, GameInfo.Identifier, config.OutputPath);
+        await Task.Run(() =>
+        {
+            GameFileService.Register(GetFileFromGame);
+            AwbMerger.Merge(sortedPackages, config.OutputPath);
+            PACMerger.Merge(sortedPackages, config.OutputPath);
+            BinaryPatcher.Patch(sortedPackages, config.OutputPath);
+        });
         throw new NotImplementedException();
     }
 

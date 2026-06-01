@@ -140,7 +140,7 @@ public static class PathUtils
         catch (Exception ex) { Logger.Error($"Unable to create directory {path}: {ex.Message}"); }
     }
 
-    public static string NormalizePath(string path)
+    public static string Normalize(string path)
     {
         return path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
     }

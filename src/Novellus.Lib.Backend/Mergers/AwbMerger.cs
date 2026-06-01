@@ -105,9 +105,7 @@ public static class AwbMerger
     }
 
     private static void ProcessPackageDirectories(
-        Dictionary<string, Dictionary<string, AwbFileMergeInfo>> awbsMap,
-        IPackage package,
-        string gameId)
+        Dictionary<string, Dictionary<string, AwbFileMergeInfo>> awbsMap, IPackage package)
     {
         var pkgAwbPath = Path.Combine(package.Path, "AWB");
         if (!Directory.Exists(pkgAwbPath)) return;
@@ -118,7 +116,7 @@ public static class AwbMerger
 
         foreach (var relativePath in leafDirs)
         {
-            var dumpAcbPath = Path.Combine(Folders.Dumps, gameId, relativePath);
+            var dumpAcbPath = GameFileService.GetFile(relativePath);
             if (!SoundArchiveExists(dumpAcbPath))
             {
                 Logger.Warn($"No sound archive found on unpacked game files '{dumpAcbPath}' " +
@@ -132,9 +130,7 @@ public static class AwbMerger
     }
 
     private static void ProcessPackageApiCalls(
-        Dictionary<string, Dictionary<string, AwbFileMergeInfo>> awbsMap,
-        IPackage package,
-    string gameId)
+        Dictionary<string, Dictionary<string, AwbFileMergeInfo>> awbsMap, IPackage package)
     {
         var awbApiCalls = ApiCalls.ResolveArgs(package, "AddFolderToAwb", ArgKind.PackagePath, ArgKind.Path);
         if (awbApiCalls is null || awbApiCalls.Length == 0) return;
@@ -145,7 +141,7 @@ public static class AwbMerger
 
         foreach (var (absolutePath, relativeAwbPath) in awbApiCalls)
         {            
-            var dumpAcbPath = Path.Combine(Folders.Dumps, gameId, relativeAwbPath);
+            var dumpAcbPath = GameFileService.GetFile(relativeAwbPath);
             if (!SoundArchiveExists(dumpAcbPath))
             {
                 Logger.Warn($"No sound archive found on unpacked game files '{dumpAcbPath}' " +
@@ -157,7 +153,7 @@ public static class AwbMerger
         }
     }
 
-    public static void Merge(IEnumerable<IPackage> packages, string gameId, string outputPath)
+    public static void Merge(IEnumerable<IPackage> packages, string outputPath)
     {
         Logger.Debug("Started to merge awbs");
         // relative to vanilla -> (wavid -> awb merge info)
@@ -168,15 +164,15 @@ public static class AwbMerger
         foreach (var package in packages)
         {
             Logger.Debug($"Processing package: {package.Metadata.Id}");
-            ProcessPackageDirectories(awbsMap, package, gameId);
-            ProcessPackageApiCalls(awbsMap, package, gameId);
+            ProcessPackageDirectories(awbsMap, package);
+            ProcessPackageApiCalls(awbsMap, package);
         }
 
         Parallel.ForEach(awbsMap, kvp =>
         {
-            string dumpAcbPath = Path.Combine(Folders.Dumps, gameId, kvp.Key);
+            string dumpAcbPath = GameFileService.GetFile(kvp.Key);
             string outputAcbPath = Path.Combine(outputPath, kvp.Key);
-            CopyAndUnpackArchive(outputAcbPath, dumpAcbPath, ".adx");
+            CopyAndUnpackArchive(outputAcbPath, dumpAcbPath, ".adx"); // TODO: don't use magic string adx bruh
             
             foreach (var file in kvp.Value.Values)
             {

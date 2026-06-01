@@ -1,12 +1,11 @@
-﻿using System.Text.Json;
-using Novellus.Lib.Backend.FileSystems;
+﻿using System.Diagnostics;
+
+using Novellus.Lib.Backend;
+using Novellus.Lib.Backend.Build.BinaryPatching;
 using Novellus.Lib.Backend.Logging;
-using Novellus.Lib.Backend.Mergers;
 using Novellus.Lib.Backend.Packages;
 using Novellus.Lib.Backend.Packages.ConditionInterpreter;
-using Novellus.Lib.Backend.Plugins;
 using Novellus.Lib.Core;
-using Novellus.Lib.Core.Packages.PackageConfig;
 
 namespace NovellusTests;
 
@@ -31,22 +30,23 @@ public class Program
     public static void Main(string[] args)
     {
         //TestLexer();
-        Folders.Initialize("C:\\Users\\darki-win\\Documents\\novellus_test");
-        Directory.CreateDirectory(Folders.Root);
-        Directory.CreateDirectory(Folders.Dumps);
-        Directory.CreateDirectory(Folders.Libraries);
-        Directory.CreateDirectory(Folders.Dependencies);
-        Directory.CreateDirectory(Folders.Config);
-        Directory.CreateDirectory(Folders.Downloads);
-        Directory.CreateDirectory(Folders.FilteredCpkCsv);
-        Directory.CreateDirectory(Folders.Loadouts);
-        Directory.CreateDirectory(Folders.Charsets);
-        Directory.CreateDirectory(Folders.Plugins);
-        Directory.CreateDirectory(Folders.Packages);
+        Folders.Initialize("C:\\novellus_test");
 
-        var packages = PackageManager.LoadPackagesFromGame("pq2");
+        var packages = PackageManager.LoadPackagesFromGame("p3fes");
         PackageManager.ProcessPackagesConfiguration(packages);
-        AwbMerger.Merge(packages, "pq2", "C:\\Users\\darki-win\\Desktop\\OUTPUT\\NOV");
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+
+        //PACMerger.Merge(packages, "C:\\novellus_test\\Output\\NOV");
+        GameFileService.Register(
+            relativePath => Path.Combine(Folders.Dumps, "p3fes", relativePath)
+         );
+        BinaryPatcher.Patch(packages, "C:\\novellus_test\\Output\\NOV");
+        //TextureOverride.Process(packages, "C:\\novellus_test\\Output\\TEXTURES_NOV");
+        //AwbMerger.Merge(packages, "pq2", "C:\\novellus_test\\Output\\NOV");
+
+        stopwatch.Stop();
+        Logger.Info($"Merged in {stopwatch.Elapsed.Seconds}.{stopwatch.ElapsedMilliseconds}s!");
         Logger.Shutdown();
     }
 }

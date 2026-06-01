@@ -57,10 +57,10 @@ public static class ApiCalls
                 switch (argKind)
                 {
                     case ArgKind.Path:
-                        argToResolve[j] = PathUtils.NormalizePath(arg);
+                        argToResolve[j] = PathUtils.Normalize(arg);
                         break;
                     case ArgKind.PackagePath:
-                        argToResolve[j] = Path.Combine(package.Path, PathUtils.NormalizePath(arg));
+                        argToResolve[j] = Path.Combine(package.Path, PathUtils.Normalize(arg));
                         if (!Directory.Exists(argToResolve[j]))
                         {
                             Logger.Error($"Error trying to resolve argument {j+1} of api call '{call.Run}' " +
@@ -69,7 +69,7 @@ public static class ApiCalls
                         }
                         break;
                     case ArgKind.PackageFile:
-                        argToResolve[j] = Path.Combine(package.Path, PathUtils.NormalizePath(arg));
+                        argToResolve[j] = Path.Combine(package.Path, PathUtils.Normalize(arg));
                         if (!File.Exists(argToResolve[j]))
                         {
                             Logger.Error($"Error trying to resolve argument {j + 1} of api call '{call.Run}' " +

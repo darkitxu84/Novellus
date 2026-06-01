@@ -1,6 +1,5 @@
 ﻿using Novellus.Lib.Backend.FileSystems;
 using Novellus.Lib.Backend.Logging;
-using Novellus.Lib.Core;
 using Novellus.Lib.Core.Packages;
 
 namespace Novellus.Lib.Backend.Build.BinaryPatching;
@@ -25,7 +24,7 @@ public static class BinaryPatcher
         }
         return data;
     }
-    public static void Patch(IEnumerable<IPackage> packages, string gameId, string outputPath)
+    public static void Patch(IEnumerable<IPackage> packages, string outputPath)
     {
         Logger.Info("Patching files...");
         foreach (var package in packages)
@@ -54,22 +53,11 @@ public static class BinaryPatcher
 
                 foreach (var patch in patches.Patches)
                 {
-                    patch.File = PathUtils.NormalizePath(patch.File);
-                    var fileToCopy = PathUtils.GetPhysicalFile(patch.File);
-                    var outputPhysicalFile = Path.Combine(outputPath, fileToCopy);
-
-                    if (!File.Exists(outputPhysicalFile))
+                    if (!GameFileService.CopyIfNotExist(patch.File, outputPath))
                     {
-                        var originalFile = Path.Combine(Folders.Dumps, gameId, fileToCopy);
-                        if (!File.Exists(originalFile)) 
-                        {
-                            Logger.Warn($"{patch.File} not found in output directory or Dumps directory " +
-                                        $"(required by {package.Metadata.Id})");
-                            continue;
-                        }
-                        string directoryName = Path.GetDirectoryName(outputPhysicalFile)!;
-                        Directory.CreateDirectory(directoryName);
-                        File.Copy(originalFile, outputPhysicalFile, true);
+                        Logger.Warn($"{patch.File} not found in output directory or Dumps directory " +
+                                    $"(required by {package.Metadata.Id})");
+                        continue;
                     }
 
                     byte[]? data = GetBytesFromString(patch.Data);
@@ -91,7 +79,7 @@ public static class BinaryPatcher
                         stream.Write(data, 0, data.Length);
                     }
 
-                    PathUtils.ResolvePathAndEdit(outputPath, patch.File, binPatch);
+                    PathUtils.ResolvePathAndEdit(outputPath, PathUtils.Normalize(patch.File), binPatch);
                 }
             }
         }
