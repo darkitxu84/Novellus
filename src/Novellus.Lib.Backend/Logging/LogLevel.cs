@@ -1,6 +1,6 @@
 ﻿namespace Novellus.Lib.Backend.Logging;
 
-public enum LogLevel
+public enum LogLevel : byte
 {
     Debug,
     Info,
